@@ -4,73 +4,113 @@ import models.Rooms;
 import queries.RoomQuery;
 import core.Request;
 import core.Response;
+import utils.RoomValidator;
+import exceptions.BadRequestException;
+import exceptions.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import utils.EntityValidator;
 import java.io.IOException;
 import java.util.List;
 
 public class RoomController {
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static void getRoomsByVilla(Request req, Response res, int villaId) {
-        List<Rooms> rooms = RoomQuery.getRoomsByVillaId(villaId);
+    public static void getRoomsByVillaId(Request req, Response res, int villaId) {
         try {
-            String json = mapper.writeValueAsString(rooms);
-            res.setBody(json);
+            EntityValidator.checkVillaExists(villaId);
+            List<Rooms> rooms = RoomQuery.getRoomsByVillaId(villaId);
+            res.setBody(mapper.writeValueAsString(rooms));
             res.send(200);
+        } catch (NotFoundException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(404);
         } catch (IOException e) {
-            res.setBody("{\"error\":\"Gagal mengubah data\"}");
+            res.setBody(jsonError("Gagal mengubah data"));
             res.send(500);
         }
     }
 
     public static void createRoom(Request req, Response res, int villaId) {
         try {
+            EntityValidator.checkVillaExists(villaId); // ✅ Validasi villa
+
             Rooms room = mapper.readValue(req.getBody(), Rooms.class);
             room.setVilla(villaId);
+            RoomValidator.validate(room);
 
-            boolean success = RoomQuery.insertRoom(room);
-            if (success) {
+            if (RoomQuery.insertRoom(room)) {
                 res.setBody("{\"message\":\"Room berhasil ditambahkan\"}");
                 res.send(201);
             } else {
-                res.setBody("{\"error\":\"Gagal menambahkan room\"}");
-                res.send(500);
+                throw new RuntimeException("Gagal menambahkan room");
             }
-        } catch (IOException e) {
-            res.setBody("{\"error\":\"Format data salah\"}");
+        } catch (BadRequestException e) {
+            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
             res.send(400);
-        }
-    }
-
-    public static void deleteRoom(Request req, Response res, int roomId) {
-        boolean success = RoomQuery.deleteRoom(roomId);
-        if (success) {
-            res.setBody("{\"message\":\"Room berhasil dihapus\"}");
-            res.send(200);
-        } else {
-            res.setBody("{\"error\":\"Room tidak ditemukan\"}");
+        } catch (NotFoundException e) {
+            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
             res.send(404);
+        } catch (IOException e) {
+            res.setBody("{\"error\":\"Format JSON salah\"}");
+            res.send(400);
+        } catch (Exception e) {
+            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+            res.send(500);
         }
     }
 
     public static void updateRoom(Request req, Response res, int villaId, int roomId) {
         try {
+            EntityValidator.checkVillaExists(villaId);
+
             Rooms room = mapper.readValue(req.getBody(), Rooms.class);
             room.setId(roomId);
             room.setVilla(villaId);
+            RoomValidator.validate(room);
 
-            boolean success = RoomQuery.updateRoom(room);
-            if (success) {
+            if (RoomQuery.updateRoom(room)) {
                 res.setBody("{\"message\":\"Room berhasil diperbarui\"}");
                 res.send(200);
             } else {
-                res.setBody("{\"error\":\"Room tidak ditemukan\"}");
-                res.send(404);
+                throw new NotFoundException("Room tidak ditemukan");
             }
+        } catch (BadRequestException e) {
+            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+            res.send(400);
+        } catch (NotFoundException e) {
+            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+            res.send(404);
         } catch (IOException e) {
-            res.setBody("{\"error\":\"Format data salah\"}");
+            res.setBody("{\"error\":\"Format JSON salah\"}");
             res.send(400);
         }
+    }
+
+    public static void deleteRoom(Request req, Response res, int villaId, int roomId) {
+        try {
+            EntityValidator.checkVillaExists(villaId);
+
+            boolean found = RoomQuery.getRoomsByVillaId(villaId)
+                    .stream()
+                    .anyMatch(r -> r.getId() == roomId);
+            if (!found) throw new NotFoundException("Room tidak ditemukan di vila ini");
+
+            if (!RoomQuery.deleteRoom(roomId))
+                throw new NotFoundException("Gagal menghapus room");
+
+            res.setBody(jsonMessage("Room berhasil dihapus"));
+            res.send(200);
+        } catch (NotFoundException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(404);
+        }
+    }
+
+    private static String jsonMessage(String msg) {
+        return String.format("{\"message\":\"%s\"}", msg);
+    }
+
+    private static String jsonError(String msg) {
+        return String.format("{\"error\":\"%s\"}", msg);
     }
 }

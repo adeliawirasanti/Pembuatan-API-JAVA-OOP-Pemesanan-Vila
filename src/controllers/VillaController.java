@@ -2,10 +2,13 @@ package controllers;
 
 import models.Villas;
 import queries.VillaQuery;
+import utils.VillaValidator;
+import exceptions.BadRequestException;
+import exceptions.NotFoundException;
 import core.Request;
 import core.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import utils.EntityValidator;
 import java.io.IOException;
 import java.util.List;
 
@@ -13,13 +16,26 @@ public class VillaController {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void getAllVillas(Request req, Response res) {
-        List<Villas> villas = VillaQuery.getAllVillas();
         try {
-            String json = mapper.writeValueAsString(villas);
-            res.setBody(json);
+            List<Villas> villas = VillaQuery.getAllVillas();
+            res.setBody(mapper.writeValueAsString(villas));
             res.send(200);
         } catch (IOException e) {
-            res.setBody("{\"error\":\"Failed to convert data\"}");
+            res.setBody(jsonError("Gagal mengubah data"));
+            res.send(500);
+        }
+    }
+
+    public static void getVillaById(Request req, Response res, int id) {
+        try {
+            Villas villa = EntityValidator.checkVillaExists(id);
+            res.setBody(mapper.writeValueAsString(villa));
+            res.send(200);
+        } catch (NotFoundException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(404);
+        } catch (IOException e) {
+            res.setBody(jsonError("Gagal mengubah data"));
             res.send(500);
         }
     }
@@ -27,83 +43,81 @@ public class VillaController {
     public static void createVilla(Request req, Response res) {
         try {
             Villas villa = mapper.readValue(req.getBody(), Villas.class);
-
-            if (villa.getName() == null || villa.getDescription() == null || villa.getAddress() == null) {
-                res.setBody("{\"error\":\"Data tidak lengkap\"}");
-                res.send(400);
-                return;
-            }
-
-            boolean success = VillaQuery.insertVilla(villa);
-            if (success) {
-                res.setBody("{\"message\":\"Villa ditambahkan\"}");
+            VillaValidator.validate(villa);
+            if (VillaQuery.insertVilla(villa)) {
+                res.setBody(jsonMessage("Villa ditambahkan"));
                 res.send(201);
             } else {
-                res.setBody("{\"error\":\"Gagal menambahkan villa\"}");
-                res.send(500);
+                throw new RuntimeException("Gagal menambahkan villa");
             }
-        } catch (IOException e) {
-            res.setBody("{\"error\":\"Format data salah\"}");
+        } catch (BadRequestException | IOException e) {
+            res.setBody(jsonError(e.getMessage()));
             res.send(400);
+        } catch (Exception e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(500);
         }
     }
 
     public static void updateVilla(Request req, Response res, int id) {
         try {
+            EntityValidator.checkVillaExists(id);
+
             Villas villa = mapper.readValue(req.getBody(), Villas.class);
             villa.setId(id);
+            VillaValidator.validate(villa);
 
-            boolean updated = VillaQuery.updateVilla(villa);
-            if (updated) {
-                res.setBody("{\"message\":\"Villa berhasil diperbarui\"}");
+            if (VillaQuery.updateVilla(villa)) {
+                res.setBody("{\"message\":\"Villa diperbarui\"}");
                 res.send(200);
             } else {
-                res.setBody("{\"error\":\"Villa tidak ditemukan\"}");
-                res.send(404);
+                throw new NotFoundException("Villa dengan ID " + id + " tidak ditemukan");
             }
+        } catch (BadRequestException e) {
+            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+            res.send(400);
+        } catch (NotFoundException e) {
+            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+            res.send(404);
         } catch (IOException e) {
-            res.setBody("{\"error\":\"Format data salah\"}");
+            res.setBody("{\"error\":\"Format JSON salah\"}");
             res.send(400);
         }
     }
 
     public static void deleteVilla(Request req, Response res, int id) {
-        boolean deleted = VillaQuery.deleteVilla(id);
-        if (deleted) {
-            res.setBody("{\"message\":\"Villa berhasil dihapus\"}");
-            res.send(200);
-        } else {
-            res.setBody("{\"error\":\"Villa tidak ditemukan\"}");
+        try {
+            if (VillaQuery.deleteVilla(id)) {
+                res.setBody(jsonMessage("Villa dihapus"));
+                res.send(200);
+            } else {
+                throw new NotFoundException("Villa tidak ditemukan");
+            }
+        } catch (NotFoundException e) {
+            res.setBody(jsonError(e.getMessage()));
             res.send(404);
         }
     }
 
-    public static void getVillaById(Request req, Response res, int id) {
-        Villas villa = VillaQuery.getVillaById(id);
+    public static void getAvailableVillas(Request req, Response res, String ci, String co) {
         try {
-            if (villa != null) {
-                String json = mapper.writeValueAsString(villa);
-                res.setBody(json);
-                res.send(200);
-            } else {
-                res.setBody("{\"error\":\"Villa tidak ditemukan\"}");
-                res.send(404);
+            if (ci == null || co == null || ci.isBlank() || co.isBlank()) {
+                throw new BadRequestException("Tanggal check-in dan check-out wajib diisi.");
             }
-        } catch (IOException e) {
-            res.setBody("{\"error\":\"Gagal mengubah data\"}");
-            res.send(500);
+            List<Villas> villas = VillaQuery.getAvailableVillas(ci, co);
+            res.setBody(mapper.writeValueAsString(villas));
+            res.send(200);
+        } catch (BadRequestException | IOException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(400);
         }
     }
 
-    public static void getAvailableVillas(Request req, Response res, String ci, String co) {
-        List<Villas> villas = VillaQuery.getAvailableVillas(ci, co);
-        try {
-            String json = mapper.writeValueAsString(villas);
-            res.setBody(json);
-            res.send(200);
-        } catch (IOException e) {
-            res.setBody("{\"error\":\"Gagal memuat data\"}");
-            res.send(500);
-        }
+    private static String jsonMessage(String msg) {
+        return String.format("{\"message\":\"%s\"}", msg);
+    }
+
+    private static String jsonError(String msg) {
+        return String.format("{\"error\":\"%s\"}", msg);
     }
 }

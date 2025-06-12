@@ -3,7 +3,7 @@ package core;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import routes.*;
+import routes.VillaRoutes;
 
 import java.net.InetSocketAddress;
 
@@ -11,8 +11,8 @@ public class Server {
     private HttpServer server;
 
     private class RequestHandler implements HttpHandler {
-        public void handle(HttpExchange httpExchange) {
-            Routes.handle(httpExchange);
+        public void handle(HttpExchange exchange) {
+            VillaRoutes.handle(exchange);
         }
     }
 

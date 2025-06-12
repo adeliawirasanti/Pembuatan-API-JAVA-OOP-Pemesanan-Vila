@@ -1,12 +1,9 @@
 package routes;
 
 import com.sun.net.httpserver.HttpExchange;
-import controllers.VillaController;
 import core.Request;
 import core.Response;
-
-import java.util.HashMap;
-import java.util.Map;
+import controllers.VillaController;
 
 public class VillaRoutes {
     public static void handle(HttpExchange httpExchange) {
@@ -16,49 +13,94 @@ public class VillaRoutes {
         String path = httpExchange.getRequestURI().getPath();
 
         try {
-            // GET /villas
-            if (path.equals("/villas") && method.equals("GET") && httpExchange.getRequestURI().getQuery() == null) {
-                VillaController.getAllVillas(req, res);
+            // Routing untuk nested endpoint
+            if (path.matches("^/villas/\\d+/rooms.*")) {
+                VillaRoomRoutes.handle(req, res, path, method);
+                return;
+            }
+            if (path.matches("^/villas/\\d+/bookings$")) {
+                VillaBookingRoutes.handle(req, res, path, method);
+                return;
+            }
+            if (path.matches("^/villas/\\d+/reviews$")) {
+                VillaReviewRoutes.handle(req, res, path, method);
                 return;
             }
 
-            // GET /villas?ci_date=...&co_date=...
-            if (path.equals("/villas") && method.equals("GET") && httpExchange.getRequestURI().getQuery() != null) {
-                Map<String, String> queryMap = new HashMap<>();
-                String[] queryParams = httpExchange.getRequestURI().getQuery().split("&");
-                for (String param : queryParams) {
-                    String[] pair = param.split("=");
-                    if (pair.length == 2) queryMap.put(pair[0], pair[1]);
+            // Routing utama /villas
+            switch (method) {
+                case "GET":
+                    handleGet(req, res, path, httpExchange.getRequestURI().getQuery());
+                    break;
+                case "POST":
+                    if (path.equals("/villas")) {
+                        VillaController.createVilla(req, res);
+                    } else {
+                        res.setBody("{\"error\":\"POST endpoint not found\"}");
+                        res.send(404);
+                    }
+                    break;
+                case "PUT":
+                    if (path.matches("^/villas/\\d+$")) {
+                        int id = Integer.parseInt(path.split("/")[2]);
+                        VillaController.updateVilla(req, res, id);
+                    } else {
+                        res.setBody("{\"error\":\"PUT endpoint not found\"}");
+                        res.send(404);
+                    }
+                    break;
+                case "DELETE":
+                    if (path.matches("^/villas/\\d+$")) {
+                        int id = Integer.parseInt(path.split("/")[2]);
+                        VillaController.deleteVilla(req, res, id);
+                    } else {
+                        res.setBody("{\"error\":\"DELETE endpoint not found\"}");
+                        res.send(404);
+                    }
+                    break;
+                default:
+                    res.setBody("{\"error\":\"Method Not Allowed\"}");
+                    res.send(405);
+                    break;
+            }
+        } catch (Exception e) {
+            res.setBody("{\"error\":\"Internal Server Error\"}");
+            res.send(500);
+        }
+    }
+
+    private static void handleGet(Request req, Response res, String path, String query) {
+        try {
+            if (path.equals("/villas")) {
+                if (query == null) {
+                    VillaController.getAllVillas(req, res);
+                    return;
                 }
-                if (queryMap.containsKey("ci_date") && queryMap.containsKey("co_date")) {
-                    VillaController.getAvailableVillas(req, res, queryMap.get("ci_date"), queryMap.get("co_date"));
+
+                // Parsing query string
+                String[] params = query.split("&");
+                String ci = null, co = null;
+                for (String p : params) {
+                    if (p.startsWith("ci_date=")) ci = p.substring(8);
+                    if (p.startsWith("co_date=")) co = p.substring(8);
+                }
+
+                if (ci != null && co != null) {
+                    VillaController.getAvailableVillas(req, res, ci, co);
                     return;
                 }
             }
 
-            // POST /villas
-            if (path.equals("/villas") && method.equals("POST")) {
-                VillaController.createVilla(req, res);
+            if (path.matches("^/villas/\\d+$")) {
+                int id = Integer.parseInt(path.split("/")[2]);
+                VillaController.getVillaById(req, res, id);
                 return;
             }
 
-            // GET /villas/{id}, PUT, DELETE
-            if (path.matches("/villas/\\d+")) {
-                int id = Integer.parseInt(path.split("/")[2]);
-                switch (method) {
-                    case "GET":
-                        VillaController.getVillaById(req, res, id);
-                        return;
-                    case "PUT":
-                        VillaController.updateVilla(req, res, id);
-                        return;
-                    case "DELETE":
-                        VillaController.deleteVilla(req, res, id);
-                        return;
-                }
-            }
+            res.setBody("{\"error\":\"GET endpoint not found\"}");
+            res.send(404);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Internal core.Server Error\"}");
+            res.setBody("{\"error\":\"Internal Error\"}");
             res.send(500);
         }
     }
