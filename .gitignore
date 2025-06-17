@@ -31,3 +31,5 @@ bin/
 # Ignore IntelliJ project files
 .idea/
 PBO-Tugas2-API.iml
+.idea/
+*.iml
