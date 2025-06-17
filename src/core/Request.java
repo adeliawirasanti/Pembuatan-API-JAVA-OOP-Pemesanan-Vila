@@ -19,21 +19,22 @@ public class Request {
     private final HttpExchange httpExchange;
     private Headers headers;
     private String rawBody;
-
     private String jsonBody;
+
+    private Map<String, String> params = new HashMap<>();
 
     public Request(HttpExchange httpExchange) {
         this.httpExchange = httpExchange;
-         this.headers = httpExchange.getRequestHeaders();
+        this.headers = httpExchange.getRequestHeaders();
     }
 
     public String getBody() {
         if (this.rawBody == null) {
             this.rawBody = new BufferedReader(
-                new InputStreamReader(httpExchange.getRequestBody(), StandardCharsets.UTF_8)
+                    new InputStreamReader(httpExchange.getRequestBody(), StandardCharsets.UTF_8)
             )
-            .lines()
-            .collect(Collectors.joining("\n"));
+                    .lines()
+                    .collect(Collectors.joining("\n"));
         }
 
         return this.rawBody;
@@ -41,6 +42,10 @@ public class Request {
 
     public String getRequestMethod() {
         return httpExchange.getRequestMethod();
+    }
+
+    public String getPath() {
+        return httpExchange.getRequestURI().getPath();
     }
 
     public String getContentType() {
@@ -55,11 +60,21 @@ public class Request {
         Map<String, Object> jsonMap = new HashMap<>();
         if (jsonBody == null) {
             ObjectMapper objectMapper = new ObjectMapper();
-            jsonMap = objectMapper.readValue(this.getBody(), new TypeReference<>(){});
+            jsonMap = objectMapper.readValue(this.getBody(), new TypeReference<>() {});
         }
 
         return jsonMap;
     }
 
+    public String getParam(String key) {
+        return params.get(key);
+    }
 
+    public void setParam(String key, String value) {
+        params.put(key, value);
+    }
+
+    public Map<String, String> getParams() {
+        return params;
+    }
 }

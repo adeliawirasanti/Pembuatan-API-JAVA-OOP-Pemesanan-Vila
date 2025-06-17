@@ -26,7 +26,10 @@ public class VillaQuery {
                         rs.getString("description"), rs.getString("address")
                 ));
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            System.err.println("Gagal mengambil semua data villa: " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
         return list;
     }
 
@@ -39,7 +42,10 @@ public class VillaQuery {
                 return new Villas(rs.getInt("id"), rs.getString("name"),
                         rs.getString("description"), rs.getString("address"));
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            System.err.println("Gagal mengambil data villa ID " + id + ": " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
         return null;
     }
 
@@ -50,7 +56,10 @@ public class VillaQuery {
             stmt.setString(2, villa.getDescription());
             stmt.setString(3, villa.getAddress());
             return stmt.executeUpdate() > 0;
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            System.err.println("Gagal menambahkan data villa: " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
         return false;
     }
 
@@ -62,7 +71,10 @@ public class VillaQuery {
             stmt.setString(3, villa.getAddress());
             stmt.setInt(4, villa.getId());
             return stmt.executeUpdate() > 0;
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            System.err.println("Gagal memperbarui data villa ID " + villa.getId() + ": " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
         return false;
     }
 
@@ -71,7 +83,10 @@ public class VillaQuery {
              PreparedStatement stmt = conn.prepareStatement(DELETE)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            System.err.println("Gagal menghapus villa ID " + id + ": " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
         return false;
     }
 
@@ -83,9 +98,15 @@ public class VillaQuery {
             stmt.setString(2, co);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                list.add(new Villas(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getString("address")));
+                list.add(new Villas(
+                        rs.getInt("id"), rs.getString("name"),
+                        rs.getString("description"), rs.getString("address")
+                ));
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            System.err.println("Gagal mengambil villa yang tersedia antara " + ci + " dan " + co + ": " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
         return list;
     }
 }

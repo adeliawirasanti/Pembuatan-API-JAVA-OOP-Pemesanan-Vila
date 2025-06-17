@@ -1,7 +1,6 @@
 package controllers;
 
 import models.Rooms;
-import queries.RoomQuery;
 import core.Request;
 import core.Response;
 import utils.RoomValidator;
@@ -32,7 +31,7 @@ public class RoomController {
 
     public static void createRoom(Request req, Response res, int villaId) {
         try {
-            EntityValidator.checkVillaExists(villaId); // ✅ Validasi villa
+            EntityValidator.checkVillaExists(villaId);
 
             Rooms room = mapper.readValue(req.getBody(), Rooms.class);
             room.setVilla(villaId);
