@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Rooms;
+import queries.RoomQuery;
 import core.Request;
 import core.Response;
 import utils.RoomValidator;

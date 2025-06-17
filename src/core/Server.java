@@ -18,38 +18,21 @@ public class Server {
             String path = exchange.getRequestURI().getPath();
 
             try {
-                // Endpoint nested review: POST /customers/{id}/bookings/{id}/reviews
                 if (path.matches("^/customers/\\d+/bookings/\\d+/reviews$")) {
                     CustomerReviewRoutes.handle(exchange);
-                }
-
-                // Endpoint nested review (GET): /customers/{id}/reviews
-                else if (path.matches("^/customers/\\d+/reviews$")) {
+                } else if (path.matches("^/customers/\\d+/reviews$")) {
                     CustomerReviewRoutes.handle(exchange);
-                }
-
-                // Endpoint nested bookings: /customers/{id}/bookings
-                else if (path.matches("^/customers/\\d+/bookings$")) {
+                } else if (path.matches("^/customers/\\d+/bookings$")) {
                     CustomerBookingRoutes.handle(exchange);
-                }
-
-                // Endpoint utama customer
-                else if (path.startsWith("/customers")) {
+                } else if (path.startsWith("/customers")) {
                     CustomerRoutes.handle(exchange);
-                }
-
-                // Endpoint utama villa
-                else if (path.startsWith("/villas")) {
+                } else if (path.startsWith("/villas")) {
                     VillaRoutes.handle(exchange);
-                }
-
-                // Jika tidak cocok dengan endpoint manapun
-                else {
+                } else {
                     exchange.sendResponseHeaders(404, 0);
                     exchange.getResponseBody().write("{\"error\":\"Endpoint not found\"}".getBytes());
                     exchange.getResponseBody().close();
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
@@ -67,6 +50,6 @@ public class Server {
         server = HttpServer.create(new InetSocketAddress(port), 128);
         server.createContext("/", new RequestHandler());
         server.start();
-        System.out.println("Listening on port: " + port + "...");
+        System.out.printf("Listening on port: %d...\n", port);
     }
 }
