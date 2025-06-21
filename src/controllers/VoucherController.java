@@ -88,4 +88,30 @@ public class VoucherController {
             res.send(400);
         }
     }
+
+    public static void show(Request req, Response res) {
+        try {
+            int id = Integer.parseInt(req.getParam("id"));
+            Voucher v = VoucherQuery.findById(id);
+            if (v == null) {
+                res.setBody("{\"error\":\"Voucher not found\"}");
+                res.send(404);
+                return;
+            }
+
+            String json = String.format(
+                    "{\"id\":%d,\"code\":\"%s\",\"description\":\"%s\",\"discount\":%.2f,\"start_date\":\"%s\",\"end_date\":\"%s\"}",
+                    v.getId(), v.getCode(), v.getDescription(), v.getDiscount(),
+                    v.getStart_date(), v.getEnd_date()
+            );
+            res.setBody(json);
+            res.send(200);
+        } catch (NumberFormatException e) {
+            res.setBody("{\"error\":\"Invalid voucher ID\"}");
+            res.send(400);
+        } catch (Exception e) {
+            res.setBody("{\"error\":\"Server error\"}");
+            res.send(500);
+        }
+    }
 }

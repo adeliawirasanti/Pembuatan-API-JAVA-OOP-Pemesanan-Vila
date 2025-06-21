@@ -11,12 +11,27 @@ public class VoucherRoutes {
         Response res = new Response(exchange);
 
         String method = req.getRequestMethod();
+        String path = req.getPath(); // misalnya: /vouchers/2
 
-        if (method.equalsIgnoreCase("GET")) {
+        // Cek apakah GET /vouchers/{id}
+        if (method.equalsIgnoreCase("GET") && path.matches("^/vouchers/\\d+$")) {
+            int id = Integer.parseInt(path.split("/")[2]);
+            req.setParam("id", String.valueOf(id));
+            VoucherController.show(req, res);
+        }
+
+        // Cek GET /vouchers
+        else if (method.equalsIgnoreCase("GET") && path.equals("/vouchers")) {
             VoucherController.index(req, res);
-        } else if (method.equalsIgnoreCase("POST")) {
+        }
+
+        // Cek POST /vouchers
+        else if (method.equalsIgnoreCase("POST") && path.equals("/vouchers")) {
             VoucherController.store(req, res);
-        } else {
+        }
+
+        // Jika tidak sesuai
+        else {
             res.setBody("{\"error\":\"Method not allowed\"}");
             res.send(405);
         }
