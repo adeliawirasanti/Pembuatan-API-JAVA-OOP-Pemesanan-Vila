@@ -1,6 +1,6 @@
 package queries;
 
-import models.Villas;
+import models.Villa;
 import database.DB;
 
 import java.sql.*;
@@ -15,13 +15,13 @@ public class VillaQuery {
     private static final String DELETE = "DELETE FROM villas WHERE id = ?";
     private static final String AVAILABLE = "SELECT * FROM villas WHERE id NOT IN (SELECT villa_id FROM bookings WHERE (? < check_out_date AND ? > check_in_date))";
 
-    public static List<Villas> getAllVillas() {
-        List<Villas> list = new ArrayList<>();
+    public static List<Villa> getAllVillas() {
+        List<Villa> list = new ArrayList<>();
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_ALL);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                list.add(new Villas(
+                list.add(new Villa(
                         rs.getInt("id"), rs.getString("name"),
                         rs.getString("description"), rs.getString("address")
                 ));
@@ -33,13 +33,13 @@ public class VillaQuery {
         return list;
     }
 
-    public static Villas getVillaById(int id) {
+    public static Villa getVillaById(int id) {
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Villas(rs.getInt("id"), rs.getString("name"),
+                return new Villa(rs.getInt("id"), rs.getString("name"),
                         rs.getString("description"), rs.getString("address"));
             }
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class VillaQuery {
         return null;
     }
 
-    public static boolean insertVilla(Villas villa) {
+    public static boolean insertVilla(Villa villa) {
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(INSERT)) {
             stmt.setString(1, villa.getName());
@@ -63,7 +63,7 @@ public class VillaQuery {
         return false;
     }
 
-    public static boolean updateVilla(Villas villa) {
+    public static boolean updateVilla(Villa villa) {
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(UPDATE)) {
             stmt.setString(1, villa.getName());
@@ -90,15 +90,15 @@ public class VillaQuery {
         return false;
     }
 
-    public static List<Villas> getAvailableVillas(String ci, String co) {
-        List<Villas> list = new ArrayList<>();
+    public static List<Villa> getAvailableVillas(String ci, String co) {
+        List<Villa> list = new ArrayList<>();
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(AVAILABLE)) {
             stmt.setString(1, ci);
             stmt.setString(2, co);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                list.add(new Villas(
+                list.add(new Villa(
                         rs.getInt("id"), rs.getString("name"),
                         rs.getString("description"), rs.getString("address")
                 ));

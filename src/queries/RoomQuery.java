@@ -1,6 +1,6 @@
 package queries;
 
-import models.Rooms;
+import models.Room;
 import database.DB;
 
 import java.sql.*;
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomQuery {
-    public static List<Rooms> getRoomsByVillaId(int villaId) {
-        List<Rooms> list = new ArrayList<>();
+    public static List<Room> getRoomsByVillaId(int villaId) {
+        List<Room> list = new ArrayList<>();
         String sql = "SELECT * FROM room_types WHERE villa = ?";
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -22,7 +22,7 @@ public class RoomQuery {
         return list;
     }
 
-    public static boolean insertRoom(Rooms r) {
+    public static boolean insertRoom(Room r) {
         String sql = "INSERT INTO room_types (villa, name, quantity, capacity, price, bed_size, has_desk, has_ac, has_tv, has_wifi, has_shower, has_hotwater, has_fridge) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -32,7 +32,7 @@ public class RoomQuery {
         return false;
     }
 
-    public static boolean updateRoom(Rooms r) {
+    public static boolean updateRoom(Room r) {
         String sql = "UPDATE room_types SET name=?, quantity=?, capacity=?, price=?, bed_size=?, has_desk=?, has_ac=?, has_tv=?, has_wifi=?, has_shower=?, has_hotwater=?, has_fridge=? WHERE id=? AND villa=?";
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -54,7 +54,7 @@ public class RoomQuery {
         return false;
     }
 
-    private static void bindRoomParams(PreparedStatement stmt, Rooms r) throws SQLException {
+    private static void bindRoomParams(PreparedStatement stmt, Room r) throws SQLException {
         stmt.setInt(1, r.getVilla());
         stmt.setString(2, r.getName());
         stmt.setInt(3, r.getQuantity());
@@ -70,8 +70,8 @@ public class RoomQuery {
         stmt.setInt(13, r.isHas_fridge() ? 1 : 0);
     }
 
-    private static Rooms mapRoom(ResultSet rs) throws SQLException {
-        return new Rooms(
+    private static Room mapRoom(ResultSet rs) throws SQLException {
+        return new Room(
                 rs.getInt("id"), rs.getInt("villa"), rs.getString("name"), rs.getInt("quantity"),
                 rs.getInt("capacity"), rs.getInt("price"), rs.getString("bed_size"),
                 rs.getInt("has_desk") == 1, rs.getInt("has_ac") == 1, rs.getInt("has_tv") == 1,

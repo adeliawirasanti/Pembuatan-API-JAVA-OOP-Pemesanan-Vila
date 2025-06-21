@@ -1,6 +1,6 @@
 package queries;
 
-import models.Bookings;
+import models.Booking;
 import database.DB;
 
 import java.sql.*;
@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingQuery {
-    public static List<Bookings> getBookingsByVillaId(int villaId) {
-        List<Bookings> list = new ArrayList<>();
+    public static List<Booking> getBookingsByVillaId(int villaId) {
+        List<Booking> list = new ArrayList<>();
         String sql = "SELECT b.* FROM bookings b JOIN room_types r ON b.room_type = r.id WHERE r.villa = ?";
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, villaId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                list.add(new Bookings(
+                list.add(new Booking(
                         rs.getInt("id"), rs.getInt("customer"), rs.getInt("room_type"),
                         rs.getString("checkin_date"), rs.getString("checkout_date"),
                         rs.getInt("price"), rs.getInt("voucher"), rs.getInt("final_price"),
@@ -28,15 +28,15 @@ public class BookingQuery {
         return list;
     }
 
-    public static List<Bookings> getBookingsByCustomerId(int customerId) {
-        List<Bookings> list = new ArrayList<>();
+    public static List<Booking> getBookingsByCustomerId(int customerId) {
+        List<Booking> list = new ArrayList<>();
         String sql = "SELECT * FROM bookings WHERE customer = ?";
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, customerId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                list.add(new Bookings(
+                list.add(new Booking(
                         rs.getInt("id"), rs.getInt("customer"), rs.getInt("room_type"),
                         rs.getString("checkin_date"), rs.getString("checkout_date"),
                         rs.getInt("price"), rs.getInt("voucher"), rs.getInt("final_price"),
@@ -48,7 +48,7 @@ public class BookingQuery {
         return list;
     }
 
-    public static Bookings insertBooking(Bookings b) {
+    public static Booking insertBooking(Booking b) {
         String sql = "INSERT INTO bookings (customer, room_type, checkin_date, checkout_date, price, voucher, final_price, payment_status, has_checkedin, has_checkedout) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DB.getConnection();
@@ -77,7 +77,7 @@ public class BookingQuery {
         return b;
     }
 
-    public static Bookings getBookingById(int bookingId) {
+    public static Booking getBookingById(int bookingId) {
         String sql = "SELECT * FROM bookings WHERE id = ?";
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -86,7 +86,7 @@ public class BookingQuery {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Bookings(
+                return new Booking(
                         rs.getInt("id"),
                         rs.getInt("customer"),
                         rs.getInt("room_type"),

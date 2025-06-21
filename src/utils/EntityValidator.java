@@ -1,6 +1,6 @@
 package utils;
 
-import models.Villas;
+import models.Villa;
 import models.Customer;
 import queries.VillaQuery;
 import queries.CustomerQuery;
@@ -8,8 +8,8 @@ import exceptions.NotFoundException;
 
 public class EntityValidator {
 
-    public static Villas checkVillaExists(int villaId) {
-        Villas villa = null;
+    public static Villa checkVillaExists(int villaId) {
+        Villa villa = null;
         try {
             villa = VillaQuery.getVillaById(villaId);
         } catch (Exception e) {

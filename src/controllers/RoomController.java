@@ -1,6 +1,6 @@
 package controllers;
 
-import models.Rooms;
+import models.Room;
 import queries.RoomQuery;
 import core.Request;
 import core.Response;
@@ -18,7 +18,7 @@ public class RoomController {
     public static void getRoomsByVillaId(Request req, Response res, int villaId) {
         try {
             EntityValidator.checkVillaExists(villaId);
-            List<Rooms> rooms = RoomQuery.getRoomsByVillaId(villaId);
+            List<Room> rooms = RoomQuery.getRoomsByVillaId(villaId);
             res.setBody(mapper.writeValueAsString(rooms));
             res.send(200);
         } catch (NotFoundException e) {
@@ -34,7 +34,7 @@ public class RoomController {
         try {
             EntityValidator.checkVillaExists(villaId);
 
-            Rooms room = mapper.readValue(req.getBody(), Rooms.class);
+            Room room = mapper.readValue(req.getBody(), Room.class);
             room.setVilla(villaId);
             RoomValidator.validate(room);
 
@@ -63,7 +63,7 @@ public class RoomController {
         try {
             EntityValidator.checkVillaExists(villaId);
 
-            Rooms room = mapper.readValue(req.getBody(), Rooms.class);
+            Room room = mapper.readValue(req.getBody(), Room.class);
             room.setId(roomId);
             room.setVilla(villaId);
             RoomValidator.validate(room);

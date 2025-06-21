@@ -1,6 +1,6 @@
 package controllers;
 
-import models.Bookings;
+import models.Booking;
 import queries.BookingQuery;
 import core.Request;
 import core.Response;
@@ -16,7 +16,7 @@ public class BookingController {
     public static void getBookingsByVillaId(Request req, Response res, int villaId) {
         try {
             EntityValidator.checkVillaExists(villaId);
-            List<Bookings> bookings = BookingQuery.getBookingsByVillaId(villaId);
+            List<Booking> bookings = BookingQuery.getBookingsByVillaId(villaId);
             res.setBody(mapper.writeValueAsString(bookings));
             res.send(200);
         } catch (NotFoundException | IOException e) {

@@ -6,8 +6,8 @@ import core.Response;
 import exceptions.BadRequestException;
 import exceptions.NotFoundException;
 import models.Customer;
-import models.Bookings;
-import models.Reviews;
+import models.Booking;
+import models.Review;
 import queries.CustomerQuery;
 import queries.BookingQuery;
 import queries.ReviewQuery;
@@ -112,7 +112,7 @@ public class CustomerController {
             Customer customer = CustomerQuery.getCustomerById(customerId);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
 
-            List<Bookings> bookings = BookingQuery.getBookingsByCustomerId(customerId);
+            List<Booking> bookings = BookingQuery.getBookingsByCustomerId(customerId);
             res.setBody(mapper.writeValueAsString(bookings));
             res.send(200);
         } catch (NotFoundException e) {
@@ -129,7 +129,7 @@ public class CustomerController {
             Customer customer = CustomerQuery.getCustomerById(customerId);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
 
-            List<Reviews> reviews = ReviewQuery.getReviewsByCustomerId(customerId);
+            List<Review> reviews = ReviewQuery.getReviewsByCustomerId(customerId);
             res.setBody(mapper.writeValueAsString(reviews));
             res.send(200);
         } catch (NotFoundException e) {
@@ -146,7 +146,7 @@ public class CustomerController {
             Customer customer = CustomerQuery.getCustomerById(customerId);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
 
-            Bookings booking = mapper.readValue(req.getBody(), Bookings.class);
+            Booking booking = mapper.readValue(req.getBody(), Booking.class);
             booking.setCustomer(customerId);
 
             if (booking.getPaymentStatus() == null) {
@@ -157,7 +157,7 @@ public class CustomerController {
                 booking.setFinalPrice(booking.getPrice());
             }
 
-            Bookings created = BookingQuery.insertBooking(booking);
+            Booking created = BookingQuery.insertBooking(booking);
             res.setBody(mapper.writeValueAsString(created));
             res.send(201);
         } catch (BadRequestException | IOException e) {
@@ -177,15 +177,15 @@ public class CustomerController {
             Customer customer = CustomerQuery.getCustomerById(customerId);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
 
-            Bookings booking = BookingQuery.getBookingById(bookingId);
+            Booking booking = BookingQuery.getBookingById(bookingId);
             if (booking == null || booking.getCustomer() != customerId) {
                 throw new NotFoundException("Booking tidak ditemukan untuk customer ini.");
             }
 
-            Reviews review = mapper.readValue(req.getBody(), Reviews.class);
+            Review review = mapper.readValue(req.getBody(), Review.class);
             review.setBooking(bookingId);
 
-            Reviews created = ReviewQuery.insertReview(review);
+            Review created = ReviewQuery.insertReview(review);
             if (created == null) {
                 throw new RuntimeException("Gagal menambahkan review.");
             }

@@ -1,6 +1,6 @@
 package queries;
 
-import models.Reviews;
+import models.Review;
 import database.DB;
 
 import java.sql.*;
@@ -9,8 +9,8 @@ import java.util.List;
 
 public class ReviewQuery {
 
-    public static List<Reviews> getReviewsByVillaId(int villaId) {
-        List<Reviews> list = new ArrayList<>();
+    public static List<Review> getReviewsByVillaId(int villaId) {
+        List<Review> list = new ArrayList<>();
         String sql = "SELECT r.* FROM reviews r " +
                 "JOIN bookings b ON r.booking = b.id " +
                 "JOIN room_types rt ON b.room_type = rt.id " +
@@ -20,7 +20,7 @@ public class ReviewQuery {
             stmt.setInt(1, villaId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                list.add(new Reviews(
+                list.add(new Review(
                         rs.getInt("booking"),
                         rs.getInt("star"),
                         rs.getString("title"),
@@ -34,8 +34,8 @@ public class ReviewQuery {
         return list;
     }
 
-    public static List<Reviews> getReviewsByCustomerId(int customerId) {
-        List<Reviews> list = new ArrayList<>();
+    public static List<Review> getReviewsByCustomerId(int customerId) {
+        List<Review> list = new ArrayList<>();
         String sql = "SELECT r.* FROM reviews r " +
                 "JOIN bookings b ON r.booking = b.id " +
                 "WHERE b.customer = ?";
@@ -44,7 +44,7 @@ public class ReviewQuery {
             stmt.setInt(1, customerId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                list.add(new Reviews(
+                list.add(new Review(
                         rs.getInt("booking"),
                         rs.getInt("star"),
                         rs.getString("title"),
@@ -58,7 +58,7 @@ public class ReviewQuery {
         return list;
     }
 
-    public static Reviews insertReview(Reviews review) {
+    public static Review insertReview(Review review) {
         String sql = "INSERT INTO reviews (booking, star, title, content) VALUES (?, ?, ?, ?)";
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

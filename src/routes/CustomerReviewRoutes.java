@@ -2,6 +2,7 @@ package routes;
 
 import com.sun.net.httpserver.HttpExchange;
 import controllers.CustomerController;
+import controllers.ReviewController;
 import core.Request;
 import core.Response;
 
@@ -54,7 +55,7 @@ public class CustomerReviewRoutes {
             if (parts.length >= 6) {
                 int customerId = Integer.parseInt(parts[2]);
                 int bookingId = Integer.parseInt(parts[4]);
-                CustomerController.createReviewForBooking(req, res, customerId, bookingId);
+                ReviewController.createReviewForBooking(req, res, customerId, bookingId);
             } else {
                 res.setBody("{\"error\":\"Format path tidak valid.\"}");
                 res.send(400);

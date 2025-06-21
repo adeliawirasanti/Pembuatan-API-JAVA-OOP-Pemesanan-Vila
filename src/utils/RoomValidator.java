@@ -1,6 +1,6 @@
 package utils;
 
-import models.Rooms;
+import models.Room;
 import exceptions.BadRequestException;
 
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.List;
 public class RoomValidator {
     private static final List<String> validBedSizes = Arrays.asList("double", "queen", "king");
 
-    public static void validate(Rooms room) {
+    public static void validate(Room room) {
         if (room.getName() == null || room.getName().trim().isEmpty()) {
             throw new BadRequestException("Nama room tidak boleh kosong.");
         }

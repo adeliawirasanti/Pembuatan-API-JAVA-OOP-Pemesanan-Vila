@@ -1,6 +1,6 @@
 package models;
 
-public class Bookings {
+public class Booking {
     private int id;
     private int customer;
     private int room_type;
@@ -13,11 +13,11 @@ public class Bookings {
     private boolean has_checkedin;
     private boolean has_checkedout;
 
-    public Bookings() {}
+    public Booking() {}
 
-    public Bookings(int id, int customer, int room_type, String checkin_date, String checkout_date,
-                    int price, int voucher, int final_price, String payment_status,
-                    boolean has_checkedin, boolean has_checkedout) {
+    public Booking(int id, int customer, int room_type, String checkin_date, String checkout_date,
+                   int price, int voucher, int final_price, String payment_status,
+                   boolean has_checkedin, boolean has_checkedout) {
         this.id = id;
         this.customer = customer;
         this.room_type = room_type;

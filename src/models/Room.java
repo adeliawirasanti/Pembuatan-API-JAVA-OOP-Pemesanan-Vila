@@ -1,6 +1,6 @@
 package models;
 
-public class Rooms {
+public class Room {
     private int id;
     private int villa;
     private String name;
@@ -16,11 +16,11 @@ public class Rooms {
     private boolean has_hotwater;
     private boolean has_fridge;
 
-    public Rooms() {}
+    public Room() {}
 
-    public Rooms(int id, int villa, String name, int quantity, int capacity, int price, String bed_size,
-                 boolean has_desk, boolean has_ac, boolean has_tv, boolean has_wifi,
-                 boolean has_shower, boolean has_hotwater, boolean has_fridge) {
+    public Room(int id, int villa, String name, int quantity, int capacity, int price, String bed_size,
+                boolean has_desk, boolean has_ac, boolean has_tv, boolean has_wifi,
+                boolean has_shower, boolean has_hotwater, boolean has_fridge) {
         this.id = id;
         this.villa = villa;
         this.name = name;

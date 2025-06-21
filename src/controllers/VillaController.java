@@ -1,6 +1,6 @@
 package controllers;
 
-import models.Villas;
+import models.Villa;
 import queries.VillaQuery;
 import utils.VillaValidator;
 import exceptions.BadRequestException;
@@ -17,7 +17,7 @@ public class VillaController {
 
     public static void getAllVillas(Request req, Response res) {
         try {
-            List<Villas> villas = VillaQuery.getAllVillas();
+            List<Villa> villas = VillaQuery.getAllVillas();
             res.setBody(mapper.writeValueAsString(villas));
             res.send(200);
         } catch (IOException e) {
@@ -28,7 +28,7 @@ public class VillaController {
 
     public static void getVillaById(Request req, Response res, int id) {
         try {
-            Villas villa = EntityValidator.checkVillaExists(id);
+            Villa villa = EntityValidator.checkVillaExists(id);
             res.setBody(mapper.writeValueAsString(villa));
             res.send(200);
         } catch (NotFoundException e) {
@@ -42,7 +42,7 @@ public class VillaController {
 
     public static void createVilla(Request req, Response res) {
         try {
-            Villas villa = mapper.readValue(req.getBody(), Villas.class);
+            Villa villa = mapper.readValue(req.getBody(), Villa.class);
             VillaValidator.validate(villa);
             if (VillaQuery.insertVilla(villa)) {
                 res.setBody(jsonMessage("Villa ditambahkan"));
@@ -63,7 +63,7 @@ public class VillaController {
         try {
             EntityValidator.checkVillaExists(id);
 
-            Villas villa = mapper.readValue(req.getBody(), Villas.class);
+            Villa villa = mapper.readValue(req.getBody(), Villa.class);
             villa.setId(id);
             VillaValidator.validate(villa);
 
@@ -104,7 +104,7 @@ public class VillaController {
             if (ci == null || co == null || ci.isBlank() || co.isBlank()) {
                 throw new BadRequestException("Tanggal check-in dan check-out wajib diisi.");
             }
-            List<Villas> villas = VillaQuery.getAvailableVillas(ci, co);
+            List<Villa> villas = VillaQuery.getAvailableVillas(ci, co);
             res.setBody(mapper.writeValueAsString(villas));
             res.send(200);
         } catch (BadRequestException | IOException e) {

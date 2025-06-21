@@ -1,14 +1,14 @@
 package models;
 
-public class Reviews {
+public class Review {
     private int booking;
     private int star;
     private String title;
     private String content;
 
-    public Reviews() {}
+    public Review() {}
 
-    public Reviews(int booking, int star, String title, String content) {
+    public Review(int booking, int star, String title, String content) {
         this.booking = booking;
         this.star = star;
         this.title = title;

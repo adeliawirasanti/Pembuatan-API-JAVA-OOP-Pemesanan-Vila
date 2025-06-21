@@ -1,10 +1,10 @@
 package utils;
 
-import models.Villas;
+import models.Villa;
 import exceptions.BadRequestException;
 
 public class VillaValidator {
-    public static void validate(Villas villa) {
+    public static void validate(Villa villa) {
         if (villa.getName() == null || villa.getName().trim().isEmpty()) {
             throw new BadRequestException("Nama vila tidak boleh kosong.");
         }
