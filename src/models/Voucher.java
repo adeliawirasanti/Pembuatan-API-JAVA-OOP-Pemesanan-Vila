@@ -19,7 +19,6 @@ public class Voucher {
         this.end_date = end_date;
     }
 
-    // Getter dan Setter
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

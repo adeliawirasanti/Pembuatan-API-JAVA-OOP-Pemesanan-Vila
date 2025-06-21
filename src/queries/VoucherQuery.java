@@ -59,9 +59,17 @@ public class VoucherQuery {
             stmt.setString(2, v.getDescription());
             stmt.setDouble(3, v.getDiscount());
             stmt.setString(4, v.getStart_date());
-            stmt.setString(5, v.getEnd_date());
+        }
+    }
+    public static boolean existsByCode(String code) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM vouchers WHERE code = ?";
+        try (Connection conn = DB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.executeUpdate();
+            stmt.setString(1, code);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
         }
     }
 }
