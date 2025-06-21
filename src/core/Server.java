@@ -7,6 +7,7 @@ import routes.VillaRoutes;
 import routes.CustomerRoutes;
 import routes.CustomerBookingRoutes;
 import routes.CustomerReviewRoutes;
+import routes.VoucherRoutes;
 
 import java.net.InetSocketAddress;
 
@@ -28,6 +29,8 @@ public class Server {
                     CustomerRoutes.handle(exchange);
                 } else if (path.startsWith("/villas")) {
                     VillaRoutes.handle(exchange);
+                } else if (path.startsWith("/vouchers")) {
+                    VoucherRoutes.handle(exchange);
                 } else {
                     exchange.sendResponseHeaders(404, 0);
                     exchange.getResponseBody().write("{\"error\":\"Endpoint not found\"}".getBytes());
