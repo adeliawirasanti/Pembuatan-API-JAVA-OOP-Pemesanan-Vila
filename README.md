@@ -1,5 +1,6 @@
 # **API JAVA OOP | SISTEM PEMESANAN VILA**  
 
+```
 Nama: Ni Made Adelia Wirasanti
 NIM: 2405551010
 Kelas: PBO B
@@ -15,9 +16,11 @@ Kelas: PBO B
 Nama: Ni Luh Putu Indah Suari
 NIM: 2405551103
 Kelas: PBO B
+```
 
 ## **INTRODUCING** 
 Tugas ini merupakan proyek pembuatan backend API sederhana yang digunakan sebagai pemenuhan tugas akhir dari mata kuliah Pemrograman Berorientasi Obyek dan dikembangkan menggunakan bahasa pemrograman Java dengan pendekatan Pemrograman Berorientasi Objek (OOP). Proyek ini dirancang untuk membangun sistem pemesanan vila yang mencakup berbagai kebutuhan seperti manajemen data vila, tipe kamar, pemesanan, ulasan pelanggan, serta penggunaan voucher diskon. API ini menerapkan konsep RESTful, yang berarti seluruh komunikasi antar client dan server dilakukan dengan menggunakan HTTP method seperti GET, POST, PUT, dan DELETE. Semua data yang dikirim dan diterima dari server menggunakan format JSON, dan data disimpan secara lokal dalam basis data SQLite. Untuk melakukan pengujian terhadap seluruh endpoint API, aplikasi Postman digunakan sebagai alat bantu. Sistem ini juga dilengkapi dengan autentikasi melalui API key yang disisipkan secara hardcoded dalam program untuk membatasi akses
+
 
 ## **STRUCTURE**  
 Struktur program aplikasi pada proyek ini dibuat secara modular dan mengikuti prinsip Object-Oriented Programming (OOP) agar lebih rapi, mudah dipelihara, dan skalabel. Seluruh kode sumber disimpan dalam folder src, lalu dikelompokkan ke dalam beberapa package sesuai dengan fungsi dan tanggung jawabnya masing-masing. Berikut penjelasannya:
@@ -30,6 +33,7 @@ Struktur program aplikasi pada proyek ini dibuat secara modular dan mengikuti pr
 * Package utils: Menyediakan berbagai fungsi bantu, seperti validasi format data, parsing JSON, hingga pengecekan email atau tanggal, yang digunakan di berbagai bagian program.
 * Package core: Di sinilah server HTTP dijalankan. API key untuk autentikasi disetting secara hardcoded, dan server mulai menerima serta memproses permintaan dari pengguna.
 
+
 ## **ERROR HANDLING**
 Program aplikasi dalam proyek ini dilengkapi dengan sistem penanganan error yang menggunakan konsep Exception dalam Java. Jika terjadi kesalahan selama pemrosesan request, server akan memberikan response berupa status HTTP dan pesan error dalam format JSON. Beberapa contoh penanganan error yang diterapkan antara lain: 
 * Jika pengguna mengakses data dengan ID yang tidak tersedia, maka sistem akan mengembalikan HTTP 404 Not Found beserta pesan seperti "Villa with ID 5 not found".
@@ -37,7 +41,8 @@ Program aplikasi dalam proyek ini dilengkapi dengan sistem penanganan error yang
 * Jika format data tidak sesuai, misalnya email tidak valid atau kapasitas kamar bukan angka, maka juga akan dikembalikan HTTP 400 Bad Request.
 * Jika pengguna tidak menyertakan API key, atau API key tidak sesuai, maka sistem akan mengembalikan HTTP 401 Unauthorized.
 
-### **TEST IN POSTMAN**
+
+## **TEST IN POSTMAN**
 Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di localhost:8080. Meskipun dapat diakses lewat browser, pengujian dilakukan menggunakan Postman agar semua metode request seperti GET, POST, PUT, dan DELETE bisa dicoba dengan mudah.
 
 **GET**
