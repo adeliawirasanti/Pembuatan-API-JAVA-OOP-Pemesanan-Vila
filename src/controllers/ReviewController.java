@@ -6,16 +6,21 @@ import core.Request;
 import core.Response;
 import models.Booking;
 import queries.BookingQuery;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import utils.AuthUtil;
 import utils.EntityValidator;
 import exceptions.NotFoundException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class ReviewController {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void getReviewsByVillaId(Request req, Response res, int villaId) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             EntityValidator.checkVillaExists(villaId);
             List<Review> reviews = ReviewQuery.getReviewsByVillaId(villaId);
@@ -26,7 +31,10 @@ public class ReviewController {
             res.send(404);
         }
     }
+
     public static void createReviewForBooking(Request req, Response res, int customerId, int bookingId) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Booking b = BookingQuery.getBookingById(bookingId);
             if (b == null || b.getCustomer() != customerId) {
@@ -35,7 +43,7 @@ public class ReviewController {
                 return;
             }
 
-            var body = req.getJSON();
+            Map<String, Object> body = req.getJSON();
             int star = (int) body.get("star");
             String title = body.get("title").toString();
             String content = body.get("content").toString();

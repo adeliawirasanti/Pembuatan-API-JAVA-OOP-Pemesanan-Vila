@@ -9,6 +9,8 @@ import core.Request;
 import core.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import utils.EntityValidator;
+import utils.AuthUtil;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -16,6 +18,8 @@ public class VillaController {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void getAllVillas(Request req, Response res) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             List<Villa> villas = VillaQuery.getAllVillas();
             res.setBody(mapper.writeValueAsString(villas));
@@ -27,6 +31,8 @@ public class VillaController {
     }
 
     public static void getVillaById(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Villa villa = EntityValidator.checkVillaExists(id);
             res.setBody(mapper.writeValueAsString(villa));
@@ -41,6 +47,8 @@ public class VillaController {
     }
 
     public static void createVilla(Request req, Response res) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Villa villa = mapper.readValue(req.getBody(), Villa.class);
             VillaValidator.validate(villa);
@@ -60,6 +68,8 @@ public class VillaController {
     }
 
     public static void updateVilla(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             EntityValidator.checkVillaExists(id);
 
@@ -68,24 +78,26 @@ public class VillaController {
             VillaValidator.validate(villa);
 
             if (VillaQuery.updateVilla(villa)) {
-                res.setBody("{\"message\":\"Villa diperbarui\"}");
+                res.setBody(jsonMessage("Villa diperbarui"));
                 res.send(200);
             } else {
                 throw new NotFoundException("Villa dengan ID " + id + " tidak ditemukan");
             }
         } catch (BadRequestException e) {
-            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+            res.setBody(jsonError(e.getMessage()));
             res.send(400);
         } catch (NotFoundException e) {
-            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+            res.setBody(jsonError(e.getMessage()));
             res.send(404);
         } catch (IOException e) {
-            res.setBody("{\"error\":\"Format JSON salah\"}");
+            res.setBody(jsonError("Format JSON salah"));
             res.send(400);
         }
     }
 
     public static void deleteVilla(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             if (VillaQuery.deleteVilla(id)) {
                 res.setBody(jsonMessage("Villa dihapus"));
@@ -100,6 +112,8 @@ public class VillaController {
     }
 
     public static void getAvailableVillas(Request req, Response res, String ci, String co) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             if (ci == null || co == null || ci.isBlank() || co.isBlank()) {
                 throw new BadRequestException("Tanggal check-in dan check-out wajib diisi.");

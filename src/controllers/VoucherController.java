@@ -7,6 +7,7 @@ import exceptions.BadRequestException;
 import exceptions.NotFoundException;
 import core.Request;
 import core.Response;
+import utils.AuthUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -16,6 +17,8 @@ public class VoucherController {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void getAllVouchers(Request req, Response res) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             List<Voucher> list = VoucherQuery.getAll();
             res.setBody(mapper.writeValueAsString(list));
@@ -27,11 +30,12 @@ public class VoucherController {
     }
 
     public static void getVoucherById(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Voucher v = VoucherQuery.findById(id);
-            if (v == null) {
-                throw new NotFoundException("Voucher tidak ditemukan");
-            }
+            if (v == null) throw new NotFoundException("Voucher tidak ditemukan");
+
             res.setBody(mapper.writeValueAsString(v));
             res.send(200);
         } catch (NotFoundException e) {
@@ -44,6 +48,8 @@ public class VoucherController {
     }
 
     public static void createVoucher(Request req, Response res) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Voucher v = mapper.readValue(req.getBody(), Voucher.class);
             VoucherValidator.validate(v);
@@ -68,6 +74,8 @@ public class VoucherController {
     }
 
     public static void updateVoucher(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Voucher existing = VoucherQuery.findById(id);
             if (existing == null) throw new NotFoundException("Voucher tidak ditemukan");
@@ -95,6 +103,8 @@ public class VoucherController {
     }
 
     public static void deleteVoucher(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Voucher v = VoucherQuery.findById(id);
             if (v == null) throw new NotFoundException("Voucher tidak ditemukan");

@@ -12,6 +12,7 @@ import queries.CustomerQuery;
 import queries.BookingQuery;
 import queries.ReviewQuery;
 import utils.CustomerValidator;
+import utils.AuthUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +21,8 @@ public class CustomerController {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void getAllCustomers(Request req, Response res) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             List<Customer> customers = CustomerQuery.getAllCustomers();
             res.setBody(mapper.writeValueAsString(customers));
@@ -31,6 +34,8 @@ public class CustomerController {
     }
 
     public static void getCustomerById(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Customer customer = CustomerQuery.getCustomerById(id);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
@@ -46,6 +51,8 @@ public class CustomerController {
     }
 
     public static void createCustomer(Request req, Response res) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Customer customer = mapper.readValue(req.getBody(), Customer.class);
             CustomerValidator.validate(customer);
@@ -62,6 +69,8 @@ public class CustomerController {
     }
 
     public static void updateCustomer(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Customer existing = CustomerQuery.getCustomerById(id);
             if (existing == null) throw new NotFoundException("Customer tidak ditemukan.");
@@ -88,6 +97,8 @@ public class CustomerController {
     }
 
     public static void deleteCustomer(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Customer existing = CustomerQuery.getCustomerById(id);
             if (existing == null) throw new NotFoundException("Customer tidak ditemukan.");
@@ -108,6 +119,8 @@ public class CustomerController {
     }
 
     public static void getBookingsByCustomerId(Request req, Response res, int customerId) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
@@ -125,6 +138,8 @@ public class CustomerController {
     }
 
     public static void getReviewsByCustomerId(Request req, Response res, int customerId) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
@@ -142,6 +157,8 @@ public class CustomerController {
     }
 
     public static void createBookingForCustomer(Request req, Response res, int customerId) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
@@ -173,6 +190,8 @@ public class CustomerController {
     }
 
     public static void createReviewForBooking(Request req, Response res, int customerId, int bookingId) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");

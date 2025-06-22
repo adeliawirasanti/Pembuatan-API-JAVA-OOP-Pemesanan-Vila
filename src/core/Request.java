@@ -77,4 +77,8 @@ public class Request {
     public Map<String, String> getParams() {
         return params;
     }
+
+    public HttpExchange getHttpExchange() {
+        return httpExchange;
+    }
 }
