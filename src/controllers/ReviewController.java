@@ -1,46 +1,41 @@
 package controllers;
 
-import models.Review;
-import queries.ReviewQuery;
 import core.Request;
 import core.Response;
+import exceptions.NotFoundException;
 import models.Booking;
+import models.Review;
 import queries.BookingQuery;
+import queries.ReviewQuery;
 import utils.AuthUtil;
 import utils.EntityValidator;
-import exceptions.NotFoundException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class ReviewController {
-    private static final ObjectMapper mapper = new ObjectMapper();
+public class ReviewController extends BaseController {
 
+    // === GET ===
     public static void getReviewsByVillaId(Request req, Response res, int villaId) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
 
         try {
             EntityValidator.checkVillaExists(villaId);
             List<Review> reviews = ReviewQuery.getReviewsByVillaId(villaId);
-            res.setBody(mapper.writeValueAsString(reviews));
-            res.send(200);
-        } catch (NotFoundException | IOException e) {
-            res.setBody(String.format("{\"error\":\"%s\"}", e.getMessage()));
-            res.send(404);
+            sendJson(res, reviews, 200);
+        } catch (Exception e) {
+            handleException(res, e);
         }
     }
 
+    // === POST ===
     public static void createReviewForBooking(Request req, Response res, int customerId, int bookingId) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
 
         try {
             Booking b = BookingQuery.getBookingById(bookingId);
             if (b == null || b.getCustomer() != customerId) {
-                res.setBody("{\"error\":\"Booking tidak ditemukan atau tidak dimiliki customer ini\"}");
-                res.send(404);
-                return;
+                throw new NotFoundException("Booking tidak ditemukan atau tidak dimiliki customer ini");
             }
 
             Map<String, Object> body = req.getJSON();
@@ -51,11 +46,9 @@ public class ReviewController {
             Review r = new Review(bookingId, star, title, content);
             ReviewQuery.insertReview(r);
 
-            res.setBody("{\"message\":\"Review berhasil ditambahkan\"}");
-            res.send(201);
+            sendMessage(res, "Review berhasil ditambahkan", 201);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Input tidak valid: " + e.getMessage() + "\"}");
-            res.send(400);
+            handleException(res, e);
         }
     }
 }

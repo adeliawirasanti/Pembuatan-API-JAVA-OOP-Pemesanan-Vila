@@ -1,35 +1,32 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import core.Request;
 import core.Response;
 import exceptions.BadRequestException;
 import exceptions.NotFoundException;
-import models.Customer;
 import models.Booking;
+import models.Customer;
 import models.Review;
-import queries.CustomerQuery;
 import queries.BookingQuery;
+import queries.CustomerQuery;
 import queries.ReviewQuery;
-import utils.CustomerValidator;
 import utils.AuthUtil;
+import utils.CustomerValidator;
 
-import java.io.IOException;
 import java.util.List;
 
-public class CustomerController {
-    private static final ObjectMapper mapper = new ObjectMapper();
+public class CustomerController extends BaseController {
+
+    // === GET Methods ===
 
     public static void getAllCustomers(Request req, Response res) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
 
         try {
             List<Customer> customers = CustomerQuery.getAllCustomers();
-            res.setBody(mapper.writeValueAsString(customers));
-            res.send(200);
+            sendJson(res, customers, 200);
         } catch (Exception e) {
-            res.setBody(jsonError("Gagal mengambil data customer."));
-            res.send(500);
+            handleException(res, e);
         }
     }
 
@@ -39,82 +36,9 @@ public class CustomerController {
         try {
             Customer customer = CustomerQuery.getCustomerById(id);
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
-            res.setBody(mapper.writeValueAsString(customer));
-            res.send(200);
-        } catch (NotFoundException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(404);
+            sendJson(res, customer, 200);
         } catch (Exception e) {
-            res.setBody(jsonError("Gagal mengambil detail customer."));
-            res.send(500);
-        }
-    }
-
-    public static void createCustomer(Request req, Response res) {
-        if (!AuthUtil.authorizeOrAbort(req, res)) return;
-
-        try {
-            Customer customer = mapper.readValue(req.getBody(), Customer.class);
-            CustomerValidator.validate(customer);
-            Customer created = CustomerQuery.insertCustomer(customer);
-            res.setBody(mapper.writeValueAsString(created));
-            res.send(201);
-        } catch (BadRequestException | IOException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(400);
-        } catch (Exception e) {
-            res.setBody(jsonError("Gagal membuat customer."));
-            res.send(500);
-        }
-    }
-
-    public static void updateCustomer(Request req, Response res, int id) {
-        if (!AuthUtil.authorizeOrAbort(req, res)) return;
-
-        try {
-            Customer existing = CustomerQuery.getCustomerById(id);
-            if (existing == null) throw new NotFoundException("Customer tidak ditemukan.");
-
-            Customer customer = mapper.readValue(req.getBody(), Customer.class);
-            CustomerValidator.validate(customer);
-
-            if (CustomerQuery.updateCustomer(id, customer)) {
-                res.setBody(jsonMessage("Customer berhasil diperbarui."));
-                res.send(200);
-            } else {
-                throw new RuntimeException("Gagal memperbarui customer.");
-            }
-        } catch (BadRequestException | IOException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(400);
-        } catch (NotFoundException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(404);
-        } catch (Exception e) {
-            res.setBody(jsonError("Terjadi kesalahan server."));
-            res.send(500);
-        }
-    }
-
-    public static void deleteCustomer(Request req, Response res, int id) {
-        if (!AuthUtil.authorizeOrAbort(req, res)) return;
-
-        try {
-            Customer existing = CustomerQuery.getCustomerById(id);
-            if (existing == null) throw new NotFoundException("Customer tidak ditemukan.");
-
-            if (CustomerQuery.deleteCustomer(id)) {
-                res.setBody(jsonMessage("Customer berhasil dihapus."));
-                res.send(200);
-            } else {
-                throw new RuntimeException("Gagal menghapus customer.");
-            }
-        } catch (NotFoundException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(404);
-        } catch (Exception e) {
-            res.setBody(jsonError("Terjadi kesalahan server."));
-            res.send(500);
+            handleException(res, e);
         }
     }
 
@@ -126,14 +50,9 @@ public class CustomerController {
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
 
             List<Booking> bookings = BookingQuery.getBookingsByCustomerId(customerId);
-            res.setBody(mapper.writeValueAsString(bookings));
-            res.send(200);
-        } catch (NotFoundException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(404);
+            sendJson(res, bookings, 200);
         } catch (Exception e) {
-            res.setBody(jsonError("Gagal mengambil data booking customer."));
-            res.send(500);
+            handleException(res, e);
         }
     }
 
@@ -145,14 +64,24 @@ public class CustomerController {
             if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
 
             List<Review> reviews = ReviewQuery.getReviewsByCustomerId(customerId);
-            res.setBody(mapper.writeValueAsString(reviews));
-            res.send(200);
-        } catch (NotFoundException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(404);
+            sendJson(res, reviews, 200);
         } catch (Exception e) {
-            res.setBody(jsonError("Gagal mengambil data review customer."));
-            res.send(500);
+            handleException(res, e);
+        }
+    }
+
+    // === POST Methods ===
+
+    public static void createCustomer(Request req, Response res) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
+        try {
+            Customer customer = mapper.readValue(req.getBody(), Customer.class);
+            CustomerValidator.validate(customer);
+            Customer created = CustomerQuery.insertCustomer(customer);
+            sendJson(res, created, 201);
+        } catch (Exception e) {
+            handleException(res, e);
         }
     }
 
@@ -166,68 +95,57 @@ public class CustomerController {
             Booking booking = mapper.readValue(req.getBody(), Booking.class);
             booking.setCustomer(customerId);
 
-            if (booking.getPaymentStatus() == null) {
+            if (booking.getPaymentStatus() == null)
                 booking.setPaymentStatus("waiting");
-            }
 
-            if (booking.getFinalPrice() == 0) {
+            if (booking.getFinalPrice() == 0)
                 booking.setFinalPrice(booking.getPrice());
-            }
 
             Booking created = BookingQuery.insertBooking(booking);
-            res.setBody(mapper.writeValueAsString(created));
-            res.send(201);
-        } catch (BadRequestException | IOException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(400);
-        } catch (NotFoundException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(404);
+            sendJson(res, created, 201);
         } catch (Exception e) {
-            res.setBody(jsonError("Gagal membuat booking."));
-            res.send(500);
+            handleException(res, e);
         }
     }
 
-    public static void createReviewForBooking(Request req, Response res, int customerId, int bookingId) {
+    // === PUT Methods ===
+
+    public static void updateCustomer(Request req, Response res, int id) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
 
         try {
-            Customer customer = CustomerQuery.getCustomerById(customerId);
-            if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
+            Customer existing = CustomerQuery.getCustomerById(id);
+            if (existing == null) throw new NotFoundException("Customer tidak ditemukan.");
 
-            Booking booking = BookingQuery.getBookingById(bookingId);
-            if (booking == null || booking.getCustomer() != customerId) {
-                throw new NotFoundException("Booking tidak ditemukan untuk customer ini.");
+            Customer customer = mapper.readValue(req.getBody(), Customer.class);
+            CustomerValidator.validate(customer);
+
+            if (CustomerQuery.updateCustomer(id, customer)) {
+                sendMessage(res, "Customer berhasil diperbarui.", 200);
+            } else {
+                throw new RuntimeException("Gagal memperbarui customer.");
             }
-
-            Review review = mapper.readValue(req.getBody(), Review.class);
-            review.setBooking(bookingId);
-
-            Review created = ReviewQuery.insertReview(review);
-            if (created == null) {
-                throw new RuntimeException("Gagal menambahkan review.");
-            }
-
-            res.setBody(mapper.writeValueAsString(created));
-            res.send(201);
-        } catch (BadRequestException | IOException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(400);
-        } catch (NotFoundException e) {
-            res.setBody(jsonError(e.getMessage()));
-            res.send(404);
         } catch (Exception e) {
-            res.setBody(jsonError("Gagal menambahkan review."));
-            res.send(500);
+            handleException(res, e);
         }
     }
 
-    private static String jsonMessage(String msg) {
-        return String.format("{\"message\":\"%s\"}", msg);
-    }
+    // === DELETE Methods ===
 
-    private static String jsonError(String msg) {
-        return String.format("{\"error\":\"%s\"}", msg);
+    public static void deleteCustomer(Request req, Response res, int id) {
+        if (!AuthUtil.authorizeOrAbort(req, res)) return;
+
+        try {
+            Customer existing = CustomerQuery.getCustomerById(id);
+            if (existing == null) throw new NotFoundException("Customer tidak ditemukan.");
+
+            if (CustomerQuery.deleteCustomer(id)) {
+                sendMessage(res, "Customer berhasil dihapus.", 200);
+            } else {
+                throw new RuntimeException("Gagal menghapus customer.");
+            }
+        } catch (Exception e) {
+            handleException(res, e);
+        }
     }
 }

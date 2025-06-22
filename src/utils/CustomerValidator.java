@@ -7,15 +7,12 @@ import java.util.regex.Pattern;
 
 public class CustomerValidator {
 
-    // Validasi: hanya huruf dan spasi, minimal 2 karakter
     private static final Pattern NAME_REGEX =
             Pattern.compile("^[a-zA-Z\\s]{2,50}$");
 
-    // Validasi email standar
     private static final Pattern EMAIL_REGEX =
             Pattern.compile("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
 
-    // Validasi nomor telepon: 10–15 digit angka
     private static final Pattern PHONE_REGEX =
             Pattern.compile("^\\d{10,15}$");
 

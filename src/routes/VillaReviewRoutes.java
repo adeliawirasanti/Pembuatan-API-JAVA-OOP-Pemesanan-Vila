@@ -8,7 +8,7 @@ public class VillaReviewRoutes {
     public static void handle(Request req, Response res, String path, String method) {
         String[] parts = path.split("/");
         if (parts.length != 4 || !parts[3].equals("reviews")) {
-            res.setBody("{\"error\":\"Invalid reviews endpoint\"}");
+            res.setBody("{\"error\":\"Endpoint reviews tidak valid\"}");
             res.send(404);
             return;
         }
@@ -18,13 +18,12 @@ public class VillaReviewRoutes {
 
             if (method.equals("GET")) {
                 ReviewController.getReviewsByVillaId(req, res, villaId);
-                return;
+            } else {
+                res.setBody("{\"error\":\"Metode tidak diizinkan untuk reviews\"}");
+                res.send(405);
             }
-
-            res.setBody("{\"error\":\"Reviews endpoint not found\"}");
-            res.send(404);
         } catch (NumberFormatException e) {
-            res.setBody("{\"error\":\"Invalid ID format\"}");
+            res.setBody("{\"error\":\"ID villa harus berupa angka\"}");
             res.send(400);
         }
     }
