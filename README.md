@@ -1,22 +1,21 @@
 # **API JAVA OOP | SISTEM PEMESANAN VILA**  
 
-```
-Nama: Ni Made Adelia Wirasanti
-NIM: 2405551010
-Kelas: PBO B
+Nama: Ni Made Adelia Wirasanti  
+NIM: 2405551010  
+Kelas: PBO B  
 
-Nama: Ni Putu Candradevi Davantari
-NIM: 2405551035
-Kelas: PBO B
+Nama: Ni Putu Candradevi Davantari  
+NIM: 2405551035  
+Kelas: PBO B  
 
-Nama: Kharisma Rosary Fitri Sanda
-NIM: 2405551072
-Kelas: PBO B
+Nama: Kharisma Rosary Fitri Sanda  
+NIM: 2405551072  
+Kelas: PBO B  
 
-Nama: Ni Luh Putu Indah Suari
-NIM: 2405551103
-Kelas: PBO B
-```
+Nama: Ni Luh Putu Indah Suari  
+NIM: 2405551103  
+Kelas: PBO B  
+
 
 ## **INTRODUCING** 
 Tugas ini merupakan proyek pembuatan backend API sederhana yang digunakan sebagai pemenuhan tugas akhir dari mata kuliah Pemrograman Berorientasi Obyek dan dikembangkan menggunakan bahasa pemrograman Java dengan pendekatan Pemrograman Berorientasi Objek (OOP). Proyek ini dirancang untuk membangun sistem pemesanan vila yang mencakup berbagai kebutuhan seperti manajemen data vila, tipe kamar, pemesanan, ulasan pelanggan, serta penggunaan voucher diskon. API ini menerapkan konsep RESTful, yang berarti seluruh komunikasi antar client dan server dilakukan dengan menggunakan HTTP method seperti GET, POST, PUT, dan DELETE. Semua data yang dikirim dan diterima dari server menggunakan format JSON, dan data disimpan secara lokal dalam basis data SQLite. Untuk melakukan pengujian terhadap seluruh endpoint API, aplikasi Postman digunakan sebagai alat bantu. Sistem ini juga dilengkapi dengan autentikasi melalui API key yang disisipkan secara hardcoded dalam program untuk membatasi akses
