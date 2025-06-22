@@ -29,15 +29,17 @@ Berikut adalah daftar error yang umum terjadi:
 **Contoh Response Error**:
 ```json
 {
-  "status": "error",
-  "code": 404,
-  "message": "Data vila dengan ID 123 tidak ditemukan",
-  "timestamp": "2023-11-22T10:15:30Z"
+    "status": "error",
+    "code": 404,
+    "message": "Data vila dengan ID 123 tidak ditemukan",
+    "timestamp": "2023-11-22T10:15:30Z"
 }
+```
 
-## ✅ Pengujian dan Integrasi API
+### ✅ Pengujian dan Integrasi API
 
-API dapat diuji menggunakan Postman dengan mengirim request ke endpoint yang tersedia. Database SQLite yang digunakan telah disiapkan dengan skema relasional lengkap, membuat API ini siap diintegrasikan dengan:
+API dapat diuji menggunakan Postman dengan mengirim request ke endpoint yang tersedia. Database SQLite yang digunakan mendukung integrasi dengan:
+
 - Aplikasi website (React, Angular, dll)
-- Aplikasi mobile (Android/iOS)
+- Aplikasi mobile (Android/iOS) 
 - Sistem POS lainnya
