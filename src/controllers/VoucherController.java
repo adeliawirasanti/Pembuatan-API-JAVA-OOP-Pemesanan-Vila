@@ -1,117 +1,121 @@
 package controllers;
 
-import core.Request;
-import core.Response;
 import models.Voucher;
 import queries.VoucherQuery;
 import utils.VoucherValidator;
+import exceptions.BadRequestException;
+import exceptions.NotFoundException;
+import core.Request;
+import core.Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class VoucherController {
+    private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static void index(Request req, Response res) {
+    public static void getAllVouchers(Request req, Response res) {
         try {
-            List<Voucher> vouchers = VoucherQuery.getAll();
-            StringBuilder sb = new StringBuilder("[");
-            for (int i = 0; i < vouchers.size(); i++) {
-                Voucher v = vouchers.get(i);
-                sb.append(String.format(
-                        "{\"id\":%d,\"code\":\"%s\",\"description\":\"%s\",\"discount\":%.2f,\"start_date\":\"%s\",\"end_date\":\"%s\"}",
-                        v.getId(), v.getCode(), v.getDescription(), v.getDiscount(),
-                        v.getStart_date(), v.getEnd_date()));
-                if (i != vouchers.size() - 1) sb.append(",");
-            }
-            sb.append("]");
-            res.setBody(sb.toString());
+            List<Voucher> list = VoucherQuery.getAll();
+            res.setBody(mapper.writeValueAsString(list));
             res.send(200);
-        } catch (SQLException e) {
-            res.setBody("{\"error\":\"Database error\"}");
-            res.send(500);
-        }
-    }
-
-    public static void store(Request req, Response res) {
-        try {
-            Map<String, Object> body = req.getJSON();
-
-            // Cek field wajib
-            if (!body.containsKey("code") || !body.containsKey("discount") ||
-                    !body.containsKey("start_date") || !body.containsKey("end_date")) {
-                res.setBody("{\"error\":\"Missing required fields\"}");
-                res.send(400);
-                return;
-            }
-
-            // Parsing dan mapping input
-            String code = body.get("code").toString().trim();
-            String description = body.get("description") != null ? body.get("description").toString().trim() : "";
-            double discount = Double.parseDouble(body.get("discount").toString());
-            String start_date = body.get("start_date").toString().trim();
-            String end_date = body.get("end_date").toString().trim();
-
-            // Buat objek voucher dari input
-            Voucher v = new Voucher();
-            v.setCode(code);
-            v.setDescription(description);
-            v.setDiscount(discount);
-            v.setStart_date(start_date);
-            v.setEnd_date(end_date);
-
-            // Validasi via util
-            String validationError = VoucherValidator.validate(v);
-            if (validationError != null) {
-                res.setBody("{\"error\":\"" + validationError + "\"}");
-                res.send(400);
-                return;
-            }
-
-            // Cek kode voucher unik
-            if (VoucherQuery.existsByCode(code)) {
-                res.setBody("{\"error\":\"Voucher code already exists\"}");
-                res.send(400);
-                return;
-            }
-
-            // Simpan data
-            VoucherQuery.insert(v);
-            res.setBody("{\"message\":\"Voucher created\"}");
-            res.send(201);
-
-        } catch (SQLException e) {
-            res.setBody("{\"error\":\"Database error\"}");
-            res.send(500);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Invalid input\"}");
-            res.send(400);
+            res.setBody(jsonError("Gagal mengambil data voucher"));
+            res.send(500);
         }
     }
 
-    public static void show(Request req, Response res) {
+    public static void getVoucherById(Request req, Response res, int id) {
         try {
-            int id = Integer.parseInt(req.getParam("id"));
             Voucher v = VoucherQuery.findById(id);
             if (v == null) {
-                res.setBody("{\"error\":\"Voucher not found\"}");
-                res.send(404);
-                return;
+                throw new NotFoundException("Voucher tidak ditemukan");
             }
-
-            String json = String.format(
-                    "{\"id\":%d,\"code\":\"%s\",\"description\":\"%s\",\"discount\":%.2f,\"start_date\":\"%s\",\"end_date\":\"%s\"}",
-                    v.getId(), v.getCode(), v.getDescription(), v.getDiscount(),
-                    v.getStart_date(), v.getEnd_date()
-            );
-            res.setBody(json);
+            res.setBody(mapper.writeValueAsString(v));
             res.send(200);
-        } catch (NumberFormatException e) {
-            res.setBody("{\"error\":\"Invalid voucher ID\"}");
-            res.send(400);
+        } catch (NotFoundException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(404);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Server error\"}");
+            res.setBody(jsonError("Gagal mengambil data voucher"));
             res.send(500);
         }
+    }
+
+    public static void createVoucher(Request req, Response res) {
+        try {
+            Voucher v = mapper.readValue(req.getBody(), Voucher.class);
+            VoucherValidator.validate(v);
+
+            if (VoucherQuery.existsByCode(v.getCode())) {
+                throw new BadRequestException("Kode voucher sudah ada");
+            }
+
+            VoucherQuery.insert(v);
+            res.setBody(jsonMessage("Voucher berhasil dibuat"));
+            res.send(201);
+        } catch (BadRequestException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(400);
+        } catch (IOException e) {
+            res.setBody(jsonError("Format JSON salah"));
+            res.send(400);
+        } catch (Exception e) {
+            res.setBody(jsonError("Gagal menyimpan voucher"));
+            res.send(500);
+        }
+    }
+
+    public static void updateVoucher(Request req, Response res, int id) {
+        try {
+            Voucher existing = VoucherQuery.findById(id);
+            if (existing == null) throw new NotFoundException("Voucher tidak ditemukan");
+
+            Voucher v = mapper.readValue(req.getBody(), Voucher.class);
+            v.setId(id);
+            VoucherValidator.validate(v);
+
+            VoucherQuery.update(id, v);
+            res.setBody(jsonMessage("Voucher berhasil diperbarui"));
+            res.send(200);
+        } catch (NotFoundException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(404);
+        } catch (BadRequestException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(400);
+        } catch (IOException e) {
+            res.setBody(jsonError("Format JSON salah"));
+            res.send(400);
+        } catch (Exception e) {
+            res.setBody(jsonError("Gagal memperbarui voucher"));
+            res.send(500);
+        }
+    }
+
+    public static void deleteVoucher(Request req, Response res, int id) {
+        try {
+            Voucher v = VoucherQuery.findById(id);
+            if (v == null) throw new NotFoundException("Voucher tidak ditemukan");
+
+            VoucherQuery.delete(id);
+            res.setBody(jsonMessage("Voucher berhasil dihapus"));
+            res.send(200);
+        } catch (NotFoundException e) {
+            res.setBody(jsonError(e.getMessage()));
+            res.send(404);
+        } catch (Exception e) {
+            res.setBody(jsonError("Gagal menghapus voucher"));
+            res.send(500);
+        }
+    }
+
+    private static String jsonMessage(String msg) {
+        return String.format("{\"message\":\"%s\"}", msg);
+    }
+
+    private static String jsonError(String msg) {
+        return String.format("{\"error\":\"%s\"}", msg);
     }
 }

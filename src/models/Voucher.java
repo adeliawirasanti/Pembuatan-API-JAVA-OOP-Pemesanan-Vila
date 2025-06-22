@@ -5,18 +5,18 @@ public class Voucher {
     private String code;
     private String description;
     private double discount;
-    private String start_date;
-    private String end_date;
+    private String startDate;
+    private String endDate;
 
     public Voucher() {}
 
-    public Voucher(int id, String code, String description, double discount, String start_date, String end_date) {
+    public Voucher(int id, String code, String description, double discount, String startDate, String endDate) {
         this.id = id;
         this.code = code;
         this.description = description;
         this.discount = discount;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public int getId() { return id; }
@@ -31,9 +31,9 @@ public class Voucher {
     public double getDiscount() { return discount; }
     public void setDiscount(double discount) { this.discount = discount; }
 
-    public String getStart_date() { return start_date; }
-    public void setStart_date(String start_date) { this.start_date = start_date; }
+    public String getStartDate() { return startDate; }
+    public void setStartDate(String startDate) { this.startDate = startDate; }
 
-    public String getEnd_date() { return end_date; }
-    public void setEnd_date(String end_date) { this.end_date = end_date; }
+    public String getEndDate() { return endDate; }
+    public void setEndDate(String endDate) { this.endDate = endDate; }
 }

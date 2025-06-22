@@ -1,39 +1,81 @@
 package routes;
 
 import com.sun.net.httpserver.HttpExchange;
-import controllers.VoucherController;
 import core.Request;
 import core.Response;
+import controllers.VoucherController;
 
 public class VoucherRoutes {
-    public static void handle(HttpExchange exchange) throws Exception {
-        Request req = new Request(exchange);
-        Response res = new Response(exchange);
-
+    public static void handle(HttpExchange httpExchange) {
+        Request req = new Request(httpExchange);
+        Response res = new Response(httpExchange);
         String method = req.getRequestMethod();
-        String path = req.getPath(); // misalnya: /vouchers/2
+        String path = httpExchange.getRequestURI().getPath();
 
-        // Cek apakah GET /vouchers/{id}
-        if (method.equalsIgnoreCase("GET") && path.matches("^/vouchers/\\d+$")) {
-            int id = Integer.parseInt(path.split("/")[2]);
-            req.setParam("id", String.valueOf(id));
-            VoucherController.show(req, res);
+        try {
+            switch (method) {
+                case "GET":
+                    handleGet(req, res, path);
+                    break;
+
+                case "POST":
+                    if (path.equals("/vouchers")) {
+                        VoucherController.createVoucher(req, res);
+                    } else {
+                        res.setBody("{\"error\":\"Endpoint POST tidak ditemukan\"}");
+                        res.send(404);
+                    }
+                    break;
+
+                case "PUT":
+                    if (path.matches("^/vouchers/\\d+$")) {
+                        int id = Integer.parseInt(path.split("/")[2]);
+                        VoucherController.updateVoucher(req, res, id);
+                    } else {
+                        res.setBody("{\"error\":\"Endpoint PUT tidak ditemukan\"}");
+                        res.send(404);
+                    }
+                    break;
+
+                case "DELETE":
+                    if (path.matches("^/vouchers/\\d+$")) {
+                        int id = Integer.parseInt(path.split("/")[2]);
+                        VoucherController.deleteVoucher(req, res, id);
+                    } else {
+                        res.setBody("{\"error\":\"Endpoint DELETE tidak ditemukan\"}");
+                        res.send(404);
+                    }
+                    break;
+
+                default:
+                    res.setBody("{\"error\":\"Metode tidak diizinkan\"}");
+                    res.send(405);
+                    break;
+            }
+        } catch (Exception e) {
+            res.setBody("{\"error\":\"Terjadi kesalahan pada server\"}");
+            res.send(500);
         }
+    }
 
-        // Cek GET /vouchers
-        else if (method.equalsIgnoreCase("GET") && path.equals("/vouchers")) {
-            VoucherController.index(req, res);
-        }
+    private static void handleGet(Request req, Response res, String path) {
+        try {
+            if (path.equals("/vouchers")) {
+                VoucherController.getAllVouchers(req, res);
+                return;
+            }
 
-        // Cek POST /vouchers
-        else if (method.equalsIgnoreCase("POST") && path.equals("/vouchers")) {
-            VoucherController.store(req, res);
-        }
+            if (path.matches("^/vouchers/\\d+$")) {
+                int id = Integer.parseInt(path.split("/")[2]);
+                VoucherController.getVoucherById(req, res, id);
+                return;
+            }
 
-        // Jika tidak sesuai
-        else {
-            res.setBody("{\"error\":\"Method not allowed\"}");
-            res.send(405);
+            res.setBody("{\"error\":\"Endpoint GET tidak ditemukan\"}");
+            res.send(404);
+        } catch (Exception e) {
+            res.setBody("{\"error\":\"Terjadi kesalahan saat memproses permintaan\"}");
+            res.send(500);
         }
     }
 }
