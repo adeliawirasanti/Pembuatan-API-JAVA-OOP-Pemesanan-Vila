@@ -26,15 +26,6 @@ Berikut adalah daftar error yang umum terjadi:
 | 401        | API Key tidak valid       | Pastikan header `X-API-KEY` berisi kunci yang benar |
 | 404        | Data tidak ditemukan      | Verifikasi ID yang diminta tersedia di database |
 
-**Contoh Response Error**:
-```json
-{
-  "status": "error",
-  "code": 404,
-  "message": "Data vila dengan ID 123 tidak ditemukan",
-  "timestamp": "2023-11-22T10:15:30Z"
-}
-
 ## ✅ Pengujian dan Integrasi API
 
 API dapat diuji menggunakan Postman dengan mengirim request ke endpoint yang tersedia. Database SQLite yang digunakan telah disiapkan dengan skema relasional lengkap, membuat API ini siap diintegrasikan dengan:
