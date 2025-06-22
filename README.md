@@ -1,5 +1,10 @@
-Program ini adalah sebuah API (Application Programming  Interface) yang dirancang untuk mengelola pemesanan vila. API ini menyediakan berbagai endpoint untuk melakukan operasi CRUD (Create, Read, Update, dan Delete) pada entitas-entitas seperti vila, pelanggan, pemesanan, dan lainnya. API dibangun dengan menggunakan bahasa pemrograman Java dan database SQLite untuk menyimpan data. Setiap request yang dikirim ke API harus disertai dengan API key yang valid untuk otentikasi, yang di hardcode dalam kelas Main sebagai lapisan keamanan dasar.
+# **✨ API Pemesanan Vila**  
+<mark>Tugas 2 PBO- Sistem Manajemen Vila</mark> 
 
+## **📌 Deskripsi Proyek** 
+Program ini adalah sebuah API (Application Programming  Interface) yang dirancang untuk mengelola pemesanan vila. API ini menyediakan berbagai endpoint untuk melakukan operasi CRUD (Create, Read, Update, dan Delete) pada entitas-entitas seperti vila 🏠, pelanggan 👥, pemesanan 📅, dan lainnya. API dibangun dengan menggunakan bahasa pemrograman Java dan database SQLite untuk menyimpan data. Setiap request yang dikirim ke API harus disertai dengan API key yang valid untuk otentikasi, yang di hardcode dalam kelas Main sebagai lapisan keamanan dasar.
+
+## **🔧 Fitur Utama**  
 API ini mendukung beberapa jenis HTTP request method, yaitu :
 * GET: Untuk mengambil daftar atau detail data entitas.
 * POST: Untuk membuat entitas baru, dengan validasi kelengkapan dan format data (seperti email dan nomor telepon).
