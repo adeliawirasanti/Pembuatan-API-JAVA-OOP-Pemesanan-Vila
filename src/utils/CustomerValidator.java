@@ -18,24 +18,24 @@ public class CustomerValidator {
 
     public static void validate(Customer customer) {
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
-            throw new BadRequestException("Nama customer tidak boleh kosong.");
+            throw new BadRequestException("The customer name cannot be empty.");
         }
         if (!NAME_REGEX.matcher(customer.getName().trim()).matches()) {
-            throw new BadRequestException("Nama hanya boleh berisi huruf dan spasi (2–50 karakter).");
+            throw new BadRequestException("Names can only contain letters and spaces (2-50 characters).");
         }
 
         if (customer.getEmail() == null || customer.getEmail().trim().isEmpty()) {
-            throw new BadRequestException("Email tidak boleh kosong.");
+            throw new BadRequestException("Email cannot be empty.");
         }
         if (!EMAIL_REGEX.matcher(customer.getEmail().trim()).matches()) {
-            throw new BadRequestException("Format email tidak valid.");
+            throw new BadRequestException("Invalid email format.");
         }
 
         if (customer.getPhone() == null || customer.getPhone().trim().isEmpty()) {
-            throw new BadRequestException("Nomor telepon tidak boleh kosong.");
+            throw new BadRequestException("The phone number cannot be empty.");
         }
         if (!PHONE_REGEX.matcher(customer.getPhone().trim()).matches()) {
-            throw new BadRequestException("Nomor telepon harus terdiri dari 10–15 digit angka.");
+            throw new BadRequestException("Phone numbers should be 10-15 digit numbers.");
         }
     }
 }

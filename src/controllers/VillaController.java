@@ -33,7 +33,7 @@ public class VillaController extends BaseController {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
 
         if (ci == null || co == null || ci.isBlank() || co.isBlank()) {
-            sendError(res, "Tanggal check-in dan check-out wajib diisi.", 400);
+            sendError(res, "Check-in and check-out dates are required.", 400);
             return;
         }
 
@@ -49,9 +49,9 @@ public class VillaController extends BaseController {
             VillaValidator.validate(villa);
 
             if (VillaQuery.insertVilla(villa)) {
-                sendMessage(res, "Villa berhasil ditambahkan.", 201);
+                sendMessage(res, "The villa was successfully added.", 201);
             } else {
-                throw new RuntimeException("Gagal menambahkan villa.");
+                throw new RuntimeException("Failed to add villas.");
             }
         } catch (Exception e) {
             handleException(res, e);
@@ -69,9 +69,9 @@ public class VillaController extends BaseController {
             VillaValidator.validate(villa);
 
             if (VillaQuery.updateVilla(villa)) {
-                sendMessage(res, "Villa berhasil diperbarui.", 200);
+                sendMessage(res, "The villa was successfully updated.", 200);
             } else {
-                throw new NotFoundException("Villa dengan ID " + id + " tidak ditemukan.");
+                throw new NotFoundException("Villa with ID " + id + " was not found.");
             }
         } catch (Exception e) {
             handleException(res, e);
@@ -84,9 +84,9 @@ public class VillaController extends BaseController {
 
         try {
             if (VillaQuery.deleteVilla(id)) {
-                sendMessage(res, "Villa berhasil dihapus.", 200);
+                sendMessage(res, "The villa was successfully deleted.", 200);
             } else {
-                throw new NotFoundException("Villa tidak ditemukan.");
+                throw new NotFoundException("The villa was not found.");
             }
         } catch (Exception e) {
             handleException(res, e);

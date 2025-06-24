@@ -35,7 +35,7 @@ public class ReviewController extends BaseController {
         try {
             Booking b = BookingQuery.getBookingById(bookingId);
             if (b == null || b.getCustomer() != customerId) {
-                throw new NotFoundException("Booking tidak ditemukan atau tidak dimiliki customer ini");
+                throw new NotFoundException("Booking not found or not owned by this customer.");
             }
 
             Map<String, Object> body = req.getJSON();
@@ -46,7 +46,7 @@ public class ReviewController extends BaseController {
             Review r = new Review(bookingId, star, title, content);
             ReviewQuery.insertReview(r);
 
-            sendMessage(res, "Review berhasil ditambahkan", 201);
+            sendMessage(res, "Review was successfully added.", 201);
         } catch (Exception e) {
             handleException(res, e);
         }

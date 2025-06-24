@@ -8,7 +8,7 @@ public class VillaRoomRoutes {
     public static void handle(Request req, Response res, String path, String method) {
         String[] parts = path.split("/");
         if (parts.length < 4 || !parts[3].equals("rooms")) {
-            res.setBody("{\"error\":\"Endpoint rooms tidak valid\"}");
+            res.setBody("{\"error\":\"Invalid endpoint rooms.\"}");
             res.send(404);
             return;
         }
@@ -39,10 +39,10 @@ public class VillaRoomRoutes {
                     break;
             }
 
-            res.setBody("{\"error\":\"Method atau endpoint rooms tidak valid\"}");
+            res.setBody("{\"error\":\"Method or endpoint rooms are invalid.\"}");
             res.send(404);
         } catch (NumberFormatException e) {
-            res.setBody("{\"error\":\"ID villa/room harus berupa angka\"}");
+            res.setBody("{\"error\":\"Villa/room ID must be a number.\"}");
             res.send(400);
         }
     }

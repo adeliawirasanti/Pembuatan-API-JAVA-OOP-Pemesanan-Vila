@@ -23,7 +23,7 @@ public class VoucherRoutes {
                     if (path.equals("/vouchers")) {
                         VoucherController.createVoucher(req, res);
                     } else {
-                        res.setBody("{\"error\":\"Endpoint POST tidak ditemukan\"}");
+                        res.setBody("{\"error\":\"POST endpoint not found.\"}");
                         res.send(404);
                     }
                     break;
@@ -33,7 +33,7 @@ public class VoucherRoutes {
                         int id = Integer.parseInt(parts[2]);
                         VoucherController.updateVoucher(req, res, id);
                     } else {
-                        res.setBody("{\"error\":\"Endpoint PUT tidak ditemukan\"}");
+                        res.setBody("{\"error\":\"PUT endpoint not found.\"}");
                         res.send(404);
                     }
                     break;
@@ -43,21 +43,21 @@ public class VoucherRoutes {
                         int id = Integer.parseInt(parts[2]);
                         VoucherController.deleteVoucher(req, res, id);
                     } else {
-                        res.setBody("{\"error\":\"Endpoint DELETE tidak ditemukan\"}");
+                        res.setBody("{\"error\":\"DELETE endpoint not found.\"}");
                         res.send(404);
                     }
                     break;
 
                 default:
-                    res.setBody("{\"error\":\"Metode tidak diizinkan\"}");
+                    res.setBody("{\"error\":\"Methods are not allowed.\"}");
                     res.send(405);
             }
 
         } catch (NumberFormatException e) {
-            res.setBody("{\"error\":\"ID harus berupa angka\"}");
+            res.setBody("{\"error\":\"ID must be a number.\"}");
             res.send(400);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Terjadi kesalahan pada server\"}");
+            res.setBody("{\"error\":\"A server error occurred.\"}");
             res.send(500);
         }
     }
@@ -77,13 +77,13 @@ public class VoucherRoutes {
                 return;
             }
 
-            res.setBody("{\"error\":\"Endpoint GET tidak ditemukan\"}");
+            res.setBody("{\"error\":\"GET endpoint not found.\"}");
             res.send(404);
         } catch (NumberFormatException e) {
-            res.setBody("{\"error\":\"ID harus berupa angka\"}");
+            res.setBody("{\"error\":\"ID must be a number.\"}");
             res.send(400);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Terjadi kesalahan saat memproses permintaan\"}");
+            res.setBody("{\"error\":\"An error occurs while processing the request.\"}");
             res.send(500);
         }
     }

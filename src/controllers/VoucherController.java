@@ -31,7 +31,7 @@ public class VoucherController extends BaseController {
 
         try {
             Voucher voucher = VoucherQuery.findById(id);
-            if (voucher == null) throw new NotFoundException("Voucher tidak ditemukan.");
+            if (voucher == null) throw new NotFoundException("The voucher was not found.");
             sendJson(res, voucher, 200);
         } catch (Exception e) {
             handleException(res, e);
@@ -48,11 +48,11 @@ public class VoucherController extends BaseController {
             VoucherValidator.validate(voucher);
 
             if (VoucherQuery.existsByCode(voucher.getCode())) {
-                throw new BadRequestException("Kode voucher sudah ada.");
+                throw new BadRequestException("The voucher code already exists.");
             }
 
             VoucherQuery.insert(voucher);
-            sendMessage(res, "Voucher berhasil dibuat.", 201);
+            sendMessage(res, "Voucher created successfully.", 201);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -65,14 +65,14 @@ public class VoucherController extends BaseController {
 
         try {
             Voucher existing = VoucherQuery.findById(id);
-            if (existing == null) throw new NotFoundException("Voucher tidak ditemukan.");
+            if (existing == null) throw new NotFoundException("The voucher was not found.");
 
             Voucher voucher = mapper.readValue(req.getBody(), Voucher.class);
             voucher.setId(id);
             VoucherValidator.validate(voucher);
 
             VoucherQuery.update(id, voucher);
-            sendMessage(res, "Voucher berhasil diperbarui.", 200);
+            sendMessage(res, "Voucher successfully updated.", 200);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -85,10 +85,10 @@ public class VoucherController extends BaseController {
 
         try {
             Voucher voucher = VoucherQuery.findById(id);
-            if (voucher == null) throw new NotFoundException("Voucher tidak ditemukan.");
+            if (voucher == null) throw new NotFoundException("The voucher was not found.");
 
             VoucherQuery.delete(id);
-            sendMessage(res, "Voucher berhasil dihapus.", 200);
+            sendMessage(res, "The voucher was successfully deleted.", 200);
         } catch (Exception e) {
             handleException(res, e);
         }

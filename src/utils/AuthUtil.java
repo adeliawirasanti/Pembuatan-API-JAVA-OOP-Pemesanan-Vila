@@ -12,7 +12,7 @@ public class AuthUtil {
         String authHeader = headers.getFirst("Authorization");
 
         if (authHeader == null || authHeader.isEmpty()) {
-            res.setBody("{\"error\":\"Authorization header tidak ditemukan\"}");
+            res.setBody("{\"error\":\"Authorization header was not found.\"}");
             res.send(401);
             return false;
         }
@@ -29,7 +29,7 @@ public class AuthUtil {
             if (decoded.equals(Main.API_KEY + ":")) return true;
         }
 
-        res.setBody("{\"error\":\"API key tidak valid atau format Authorization salah\"}");
+        res.setBody("{\"error\":\"Invalid API key or incorrect Authorization format.\"}");
         res.send(401);
         return false;
     }

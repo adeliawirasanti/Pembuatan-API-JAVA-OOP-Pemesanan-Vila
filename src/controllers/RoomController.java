@@ -31,7 +31,7 @@ public class RoomController extends BaseController {
             room.setVilla(villaId);
             RoomValidator.validate(room);
             RoomQuery.insertRoom(room);
-            sendMessage(res, "Room berhasil ditambahkan", 201);
+            sendMessage(res, "Room successfully added.", 201);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -47,10 +47,10 @@ public class RoomController extends BaseController {
             RoomValidator.validate(room);
 
             if (!RoomQuery.updateRoom(room)) {
-                throw new NotFoundException("Room tidak ditemukan");
+                throw new NotFoundException("Room was not found.");
             }
 
-            sendMessage(res, "Room berhasil diperbarui", 200);
+            sendMessage(res, "Room successfully updated.", 200);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -61,9 +61,9 @@ public class RoomController extends BaseController {
         try {
             EntityValidator.checkVillaExists(villaId);
             boolean found = RoomQuery.getRoomsByVillaId(villaId).stream().anyMatch(r -> r.getId() == roomId);
-            if (!found) throw new NotFoundException("Room tidak ditemukan di vila ini");
-            if (!RoomQuery.deleteRoom(roomId)) throw new NotFoundException("Gagal menghapus room");
-            sendMessage(res, "Room berhasil dihapus", 200);
+            if (!found) throw new NotFoundException("Room is not found in this villa.");
+            if (!RoomQuery.deleteRoom(roomId)) throw new NotFoundException("Failed to delete room.");
+            sendMessage(res, "Room was successfully deleted.", 200);
         } catch (Exception e) {
             handleException(res, e);
         }

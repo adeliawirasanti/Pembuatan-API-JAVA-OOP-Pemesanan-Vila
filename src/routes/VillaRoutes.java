@@ -38,7 +38,7 @@ public class VillaRoutes {
                     if (path.equals("/villas")) {
                         VillaController.createVilla(req, res);
                     } else {
-                        res.setBody("{\"error\":\"Endpoint POST tidak ditemukan\"}");
+                        res.setBody("{\"error\":\"POST endpoint not found.\"}");
                         res.send(404);
                     }
                     break;
@@ -48,7 +48,7 @@ public class VillaRoutes {
                         int id = Integer.parseInt(parts[2]);
                         VillaController.updateVilla(req, res, id);
                     } else {
-                        res.setBody("{\"error\":\"Endpoint PUT tidak ditemukan\"}");
+                        res.setBody("{\"error\":\"PUT endpoint not found.\"}");
                         res.send(404);
                     }
                     break;
@@ -58,18 +58,18 @@ public class VillaRoutes {
                         int id = Integer.parseInt(parts[2]);
                         VillaController.deleteVilla(req, res, id);
                     } else {
-                        res.setBody("{\"error\":\"Endpoint DELETE tidak ditemukan\"}");
+                        res.setBody("{\"error\":\"DELETE endpoint not found.\"}");
                         res.send(404);
                     }
                     break;
 
                 default:
-                    res.setBody("{\"error\":\"Metode tidak diizinkan\"}");
+                    res.setBody("{\"error\":\"Methods are not allowed.\"}");
                     res.send(405);
             }
 
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Terjadi kesalahan pada server\"}");
+            res.setBody("{\"error\":\"A server error occurred.\"}");
             res.send(500);
         }
     }
@@ -102,10 +102,10 @@ public class VillaRoutes {
                 return;
             }
 
-            res.setBody("{\"error\":\"Endpoint GET tidak ditemukan\"}");
+            res.setBody("{\"error\":\"GET endpoint not found.\"}");
             res.send(404);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Internal error saat memproses GET\"}");
+            res.setBody("{\"error\":\"Internal error when processing GET.\"}");
             res.send(500);
         }
     }

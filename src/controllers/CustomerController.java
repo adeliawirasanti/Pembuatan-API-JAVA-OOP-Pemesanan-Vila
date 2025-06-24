@@ -35,7 +35,7 @@ public class CustomerController extends BaseController {
 
         try {
             Customer customer = CustomerQuery.getCustomerById(id);
-            if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
+            if (customer == null) throw new NotFoundException("Customer was not found.");
             sendJson(res, customer, 200);
         } catch (Exception e) {
             handleException(res, e);
@@ -47,7 +47,7 @@ public class CustomerController extends BaseController {
 
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
-            if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
+            if (customer == null) throw new NotFoundException("Customer was not found.");
 
             List<Booking> bookings = BookingQuery.getBookingsByCustomerId(customerId);
             sendJson(res, bookings, 200);
@@ -61,7 +61,7 @@ public class CustomerController extends BaseController {
 
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
-            if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
+            if (customer == null) throw new NotFoundException("Customer was not found.");
 
             List<Review> reviews = ReviewQuery.getReviewsByCustomerId(customerId);
             sendJson(res, reviews, 200);
@@ -90,7 +90,7 @@ public class CustomerController extends BaseController {
 
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
-            if (customer == null) throw new NotFoundException("Customer tidak ditemukan.");
+            if (customer == null) throw new NotFoundException("Customer was not found.");
 
             Booking booking = mapper.readValue(req.getBody(), Booking.class);
             booking.setCustomer(customerId);
@@ -115,15 +115,15 @@ public class CustomerController extends BaseController {
 
         try {
             Customer existing = CustomerQuery.getCustomerById(id);
-            if (existing == null) throw new NotFoundException("Customer tidak ditemukan.");
+            if (existing == null) throw new NotFoundException("Customer was not found.");
 
             Customer customer = mapper.readValue(req.getBody(), Customer.class);
             CustomerValidator.validate(customer);
 
             if (CustomerQuery.updateCustomer(id, customer)) {
-                sendMessage(res, "Customer berhasil diperbarui.", 200);
+                sendMessage(res, "Customer was successfully updated.", 200);
             } else {
-                throw new RuntimeException("Gagal memperbarui customer.");
+                throw new RuntimeException("Failed to update customer.");
             }
         } catch (Exception e) {
             handleException(res, e);
@@ -137,12 +137,12 @@ public class CustomerController extends BaseController {
 
         try {
             Customer existing = CustomerQuery.getCustomerById(id);
-            if (existing == null) throw new NotFoundException("Customer tidak ditemukan.");
+            if (existing == null) throw new NotFoundException("Customer was not found.");
 
             if (CustomerQuery.deleteCustomer(id)) {
-                sendMessage(res, "Customer berhasil dihapus.", 200);
+                sendMessage(res, "Customer was successfully deleted.", 200);
             } else {
-                throw new RuntimeException("Gagal menghapus customer.");
+                throw new RuntimeException("Failed to delete customer.");
             }
         } catch (Exception e) {
             handleException(res, e);

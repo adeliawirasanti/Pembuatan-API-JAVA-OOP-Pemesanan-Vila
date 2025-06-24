@@ -40,20 +40,20 @@ public class CustomerRoutes {
                         CustomerController.deleteCustomer(req, res, customerId);
                         return;
                     default:
-                        res.setBody("{\"error\":\"Metode tidak diizinkan: " + method + "\"}");
+                        res.setBody("{\"error\":\"Methods are not allowed: " + method + "\"}");
                         res.send(405);
                         return;
                 }
             }
 
-            res.setBody("{\"error\":\"Endpoint customer tidak ditemukan.\"}");
+            res.setBody("{\"error\":\"The customer endpoint was not found.\"}");
             res.send(404);
 
         } catch (NumberFormatException e) {
-            res.setBody("{\"error\":\"ID customer harus berupa angka.\"}");
+            res.setBody("{\"error\":\"Customer ID must be a number.\"}");
             res.send(400);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Terjadi kesalahan pada server.\"}");
+            res.setBody("{\"error\":\"A server error occurred.\"}");
             res.send(500);
         }
     }

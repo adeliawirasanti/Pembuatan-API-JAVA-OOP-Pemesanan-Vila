@@ -13,11 +13,11 @@ public class EntityValidator {
         try {
             villa = VillaQuery.getVillaById(villaId);
         } catch (Exception e) {
-            throw new RuntimeException("Gagal mengambil data villa.", e);
+            throw new RuntimeException("Failed to retrieve villa data.", e);
         }
 
         if (villa == null) {
-            throw new NotFoundException("Villa dengan ID " + villaId + " tidak ditemukan.");
+            throw new NotFoundException("Villa with ID " + villaId + " was not found.");
         }
         return villa;
     }
@@ -27,11 +27,11 @@ public class EntityValidator {
         try {
             customer = CustomerQuery.getCustomerById(customerId);
         } catch (Exception e) {
-            throw new RuntimeException("Gagal mengambil data customer.", e);
+            throw new RuntimeException("Failed to retrieve customer data.", e);
         }
 
         if (customer == null) {
-            throw new NotFoundException("Customer dengan ID " + customerId + " tidak ditemukan.");
+            throw new NotFoundException("Customer with ID " + customerId + " was not found.");
         }
         return customer;
     }

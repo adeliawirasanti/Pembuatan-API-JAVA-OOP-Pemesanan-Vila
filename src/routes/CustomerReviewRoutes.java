@@ -23,11 +23,11 @@ public class CustomerReviewRoutes {
                     handlePost(req, res, parts);
                     break;
                 default:
-                    res.setBody("{\"error\":\"Metode tidak diizinkan: " + method + "\"}");
+                    res.setBody("{\"error\":\"Methods are not allowed: " + method + "\"}");
                     res.send(405);
             }
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Terjadi kesalahan pada server: " + e.getMessage() + "\"}");
+            res.setBody("{\"error\":\"A server error occurred: " + e.getMessage() + "\"}");
             res.send(500);
         }
     }
@@ -38,11 +38,11 @@ public class CustomerReviewRoutes {
                 int customerId = Integer.parseInt(parts[2]);
                 CustomerController.getReviewsByCustomerId(req, res, customerId);
             } catch (NumberFormatException e) {
-                res.setBody("{\"error\":\"Format ID tidak valid.\"}");
+                res.setBody("{\"error\":\"Invalid ID format.\"}");
                 res.send(400);
             }
         } else {
-            res.setBody("{\"error\":\"Endpoint GET reviews customer tidak ditemukan.\"}");
+            res.setBody("{\"error\":\"The GET reviews customer endpoint was not found.\"}");
             res.send(404);
         }
     }
@@ -54,11 +54,11 @@ public class CustomerReviewRoutes {
                 int bookingId = Integer.parseInt(parts[4]);
                 ReviewController.createReviewForBooking(req, res, customerId, bookingId);
             } catch (NumberFormatException e) {
-                res.setBody("{\"error\":\"Format ID tidak valid.\"}");
+                res.setBody("{\"error\":\"Invalid ID format.\"}");
                 res.send(400);
             }
         } else {
-            res.setBody("{\"error\":\"Endpoint POST reviews customer tidak ditemukan.\"}");
+            res.setBody("{\"error\":\"The POST reviews customer endpoint was not found.\"}");
             res.send(404);
         }
     }

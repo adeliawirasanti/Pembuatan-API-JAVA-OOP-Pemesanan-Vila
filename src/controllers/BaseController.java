@@ -13,7 +13,7 @@ public class BaseController {
             res.setBody(mapper.writeValueAsString(data));
             res.send(status);
         } catch (Exception e) {
-            sendError(res, "Gagal memproses data.", 500);
+            sendError(res, "Failed to process data.", 500);
         }
     }
 
@@ -33,7 +33,7 @@ public class BaseController {
         } else if (e instanceof NotFoundException) {
             sendError(res, e.getMessage(), 404);
         } else {
-            sendError(res, "Terjadi kesalahan pada server.", 500);
+            sendError(res, "Server error occurred.", 500);
         }
     }
 }
