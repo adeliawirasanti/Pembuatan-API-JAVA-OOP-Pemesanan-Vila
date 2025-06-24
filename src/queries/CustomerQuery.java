@@ -21,16 +21,10 @@ public class CustomerQuery {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                list.add(new Customer(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("phone")
-                ));
+                list.add(mapCustomer(rs));
             }
         } catch (SQLException e) {
             System.err.println("Gagal mengambil semua data customer: " + e.getMessage());
-            e.printStackTrace(System.err);
         }
         return list;
     }
@@ -40,18 +34,13 @@ public class CustomerQuery {
              PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID)) {
 
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Customer(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("phone")
-                );
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapCustomer(rs);
+                }
             }
         } catch (SQLException e) {
             System.err.println("Gagal mengambil customer ID " + id + ": " + e.getMessage());
-            e.printStackTrace(System.err);
         }
         return null;
     }
@@ -65,14 +54,14 @@ public class CustomerQuery {
             stmt.setString(3, customer.getPhone());
             stmt.executeUpdate();
 
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                customer.setId(rs.getInt(1));
-                return customer;
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    customer.setId(rs.getInt(1));
+                    return customer;
+                }
             }
         } catch (SQLException e) {
             System.err.println("Gagal menambahkan customer baru: " + e.getMessage());
-            e.printStackTrace(System.err);
         }
         return null;
     }
@@ -89,7 +78,6 @@ public class CustomerQuery {
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Gagal memperbarui customer ID " + id + ": " + e.getMessage());
-            e.printStackTrace(System.err);
         }
         return false;
     }
@@ -102,8 +90,16 @@ public class CustomerQuery {
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Gagal menghapus customer ID " + id + ": " + e.getMessage());
-            e.printStackTrace(System.err);
         }
         return false;
+    }
+
+    private static Customer mapCustomer(ResultSet rs) throws SQLException {
+        return new Customer(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("phone")
+        );
     }
 }

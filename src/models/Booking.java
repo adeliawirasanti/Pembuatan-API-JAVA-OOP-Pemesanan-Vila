@@ -61,32 +61,12 @@ public class Booking {
     public boolean isHas_checkedin() { return has_checkedin; }
     public void setHas_checkedin(boolean has_checkedin) { this.has_checkedin = has_checkedin; }
 
-    public boolean isHas_checkedout() { return has_checkedout; }
-    public void setHas_checkedout(boolean has_checkedout) { this.has_checkedout = has_checkedout; }
-
-    // Tambahan getter/setter camelCase agar controller tidak error
-
-    public int getRoomType() { return room_type; }
-    public void setRoomType(int roomType) { this.room_type = roomType; }
-
-    public String getCheckinDate() { return checkin_date; }
-    public void setCheckinDate(String checkinDate) { this.checkin_date = checkinDate; }
-
-    public String getCheckoutDate() { return checkout_date; }
-    public void setCheckoutDate(String checkoutDate) { this.checkout_date = checkoutDate; }
+    public String getPaymentStatus() { return payment_status; }
+    public void setPaymentStatus(String paymentStatus) { this.payment_status = paymentStatus; }
 
     public int getFinalPrice() { return final_price; }
     public void setFinalPrice(int finalPrice) { this.final_price = finalPrice; }
 
-    public String getPaymentStatus() { return payment_status; }
-    public void setPaymentStatus(String paymentStatus) { this.payment_status = paymentStatus; }
-
-    public boolean isHasCheckedin() { return has_checkedin; }
-    public void setHasCheckedin(boolean hasCheckedin) { this.has_checkedin = hasCheckedin; }
-
-    public boolean isHasCheckedout() { return has_checkedout; }
-    public void setHasCheckedout(boolean hasCheckedout) { this.has_checkedout = hasCheckedout; }
-
-    public Integer getVoucherObj() { return voucher == 0 ? null : voucher; }
-    public void setVoucherObj(Integer voucher) { this.voucher = (voucher == null) ? 0 : voucher; }
+    public boolean isHas_checkedout() { return has_checkedout; }
+    public void setHas_checkedout(boolean has_checkedout) { this.has_checkedout = has_checkedout; }
 }
