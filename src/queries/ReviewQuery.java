@@ -1,7 +1,7 @@
 package queries;
 
-import models.Review;
 import database.DB;
+import models.Review;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,18 +18,14 @@ public class ReviewQuery {
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, villaId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                list.add(new Review(
-                        rs.getInt("booking"),
-                        rs.getInt("star"),
-                        rs.getString("title"),
-                        rs.getString("content")
-                ));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapReview(rs));
+                }
             }
         } catch (SQLException e) {
             System.err.println("Gagal mengambil review vila: " + e.getMessage());
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         return list;
     }
@@ -42,18 +38,14 @@ public class ReviewQuery {
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, customerId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                list.add(new Review(
-                        rs.getInt("booking"),
-                        rs.getInt("star"),
-                        rs.getString("title"),
-                        rs.getString("content")
-                ));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapReview(rs));
+                }
             }
         } catch (SQLException e) {
             System.err.println("Gagal mengambil review customer: " + e.getMessage());
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         return list;
     }
@@ -70,12 +62,21 @@ public class ReviewQuery {
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-                return review; // Tidak ada ID auto-increment di tabel reviews, jadi cukup return objeknya
+                return review;
             }
         } catch (SQLException e) {
             System.err.println("Gagal menambahkan review: " + e.getMessage());
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         return null;
+    }
+
+    private static Review mapReview(ResultSet rs) throws SQLException {
+        return new Review(
+                rs.getInt("booking"),
+                rs.getInt("star"),
+                rs.getString("title"),
+                rs.getString("content")
+        );
     }
 }

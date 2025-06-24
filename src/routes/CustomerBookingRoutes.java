@@ -6,48 +6,40 @@ import core.Request;
 import core.Response;
 
 public class CustomerBookingRoutes {
-    public static void handle(HttpExchange httpExchange) {
-        Request req = new Request(httpExchange);
-        Response res = new Response(httpExchange);
+    public static void handle(HttpExchange exchange) {
+        Request req = new Request(exchange);
+        Response res = new Response(exchange);
         String method = req.getRequestMethod();
         String path = req.getPath();
+        String[] parts = path.split("/");
 
         try {
-            switch (method) {
-                case "GET":
-                    handleGet(req, res, path);
-                    break;
-                case "POST":
-                    handlePost(req, res, path);
-                    break;
-                default:
-                    res.setBody("{\"error\":\"Metode tidak diizinkan: " + method + "\"}");
-                    res.send(405);
+            if (parts.length == 4 && parts[1].equals("customers") && parts[3].equals("bookings")) {
+                int customerId = Integer.parseInt(parts[2]);
+
+                switch (method) {
+                    case "GET":
+                        CustomerController.getBookingsByCustomerId(req, res, customerId);
+                        return;
+                    case "POST":
+                        CustomerController.createBookingForCustomer(req, res, customerId);
+                        return;
+                    default:
+                        res.setBody("{\"error\":\"Metode tidak diizinkan: " + method + "\"}");
+                        res.send(405);
+                        return;
+                }
             }
+
+            res.setBody("{\"error\":\"Endpoint bookings customer tidak ditemukan.\"}");
+            res.send(404);
+
+        } catch (NumberFormatException e) {
+            res.setBody("{\"error\":\"ID customer harus berupa angka.\"}");
+            res.send(400);
         } catch (Exception e) {
-            res.setBody("{\"error\":\"Terjadi kesalahan pada server: " + e.getMessage() + "\"}");
+            res.setBody("{\"error\":\"Terjadi kesalahan pada server.\"}");
             res.send(500);
         }
     }
-
-    private static void handleGet(Request req, Response res, String path) {
-        if (path.matches("/customers/\\d+/bookings")) {
-            int customerId = Integer.parseInt(path.split("/")[2]);
-            CustomerController.getBookingsByCustomerId(req, res, customerId);
-        } else {
-            res.setBody("{\"message\":\"Endpoint GET bookings customer tidak ditemukan.\"}");
-            res.send(404);
-        }
-    }
-
-    private static void handlePost(Request req, Response res, String path) {
-        if (path.matches("/customers/\\d+/bookings")) {
-            int customerId = Integer.parseInt(path.split("/")[2]);
-            CustomerController.createBookingForCustomer(req, res, customerId);
-        } else {
-            res.setBody("{\"error\":\"Endpoint POST tidak ditemukan\"}");
-            res.send(404);
-        }
-    }
 }
-

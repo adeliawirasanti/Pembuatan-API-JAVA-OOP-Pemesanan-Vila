@@ -6,11 +6,12 @@ import core.Response;
 import controllers.VoucherController;
 
 public class VoucherRoutes {
-    public static void handle(HttpExchange httpExchange) {
-        Request req = new Request(httpExchange);
-        Response res = new Response(httpExchange);
+    public static void handle(HttpExchange exchange) {
+        Request req = new Request(exchange);
+        Response res = new Response(exchange);
         String method = req.getRequestMethod();
-        String path = httpExchange.getRequestURI().getPath();
+        String path = req.getPath();
+        String[] parts = path.split("/");
 
         try {
             switch (method) {
@@ -28,8 +29,8 @@ public class VoucherRoutes {
                     break;
 
                 case "PUT":
-                    if (path.matches("^/vouchers/\\d+$")) {
-                        int id = Integer.parseInt(path.split("/")[2]);
+                    if (parts.length == 3 && parts[1].equals("vouchers")) {
+                        int id = Integer.parseInt(parts[2]);
                         VoucherController.updateVoucher(req, res, id);
                     } else {
                         res.setBody("{\"error\":\"Endpoint PUT tidak ditemukan\"}");
@@ -38,8 +39,8 @@ public class VoucherRoutes {
                     break;
 
                 case "DELETE":
-                    if (path.matches("^/vouchers/\\d+$")) {
-                        int id = Integer.parseInt(path.split("/")[2]);
+                    if (parts.length == 3 && parts[1].equals("vouchers")) {
+                        int id = Integer.parseInt(parts[2]);
                         VoucherController.deleteVoucher(req, res, id);
                     } else {
                         res.setBody("{\"error\":\"Endpoint DELETE tidak ditemukan\"}");
@@ -50,8 +51,11 @@ public class VoucherRoutes {
                 default:
                     res.setBody("{\"error\":\"Metode tidak diizinkan\"}");
                     res.send(405);
-                    break;
             }
+
+        } catch (NumberFormatException e) {
+            res.setBody("{\"error\":\"ID harus berupa angka\"}");
+            res.send(400);
         } catch (Exception e) {
             res.setBody("{\"error\":\"Terjadi kesalahan pada server\"}");
             res.send(500);
@@ -59,20 +63,25 @@ public class VoucherRoutes {
     }
 
     private static void handleGet(Request req, Response res, String path) {
+        String[] parts = path.split("/");
+
         try {
             if (path.equals("/vouchers")) {
                 VoucherController.getAllVouchers(req, res);
                 return;
             }
 
-            if (path.matches("^/vouchers/\\d+$")) {
-                int id = Integer.parseInt(path.split("/")[2]);
+            if (parts.length == 3 && parts[1].equals("vouchers")) {
+                int id = Integer.parseInt(parts[2]);
                 VoucherController.getVoucherById(req, res, id);
                 return;
             }
 
             res.setBody("{\"error\":\"Endpoint GET tidak ditemukan\"}");
             res.send(404);
+        } catch (NumberFormatException e) {
+            res.setBody("{\"error\":\"ID harus berupa angka\"}");
+            res.send(400);
         } catch (Exception e) {
             res.setBody("{\"error\":\"Terjadi kesalahan saat memproses permintaan\"}");
             res.send(500);

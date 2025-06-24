@@ -12,14 +12,15 @@ public class CustomerReviewRoutes {
         Response res = new Response(httpExchange);
         String method = req.getRequestMethod();
         String path = req.getPath();
+        String[] parts = path.split("/", -1); // penting untuk trailing slash
 
         try {
             switch (method) {
                 case "GET":
-                    handleGet(req, res, path);
+                    handleGet(req, res, parts);
                     break;
                 case "POST":
-                    handlePost(req, res, path);
+                    handlePost(req, res, parts);
                     break;
                 default:
                     res.setBody("{\"error\":\"Metode tidak diizinkan: " + method + "\"}");
@@ -31,15 +32,13 @@ public class CustomerReviewRoutes {
         }
     }
 
-    private static void handleGet(Request req, Response res, String path) {
-        // GET /customers/{customerId}/reviews → Ambil semua review milik customer
-        if (path.matches("^/customers/\\d+/reviews$")) {
-            String[] parts = path.split("/");
-            if (parts.length >= 4) {
+    private static void handleGet(Request req, Response res, String[] parts) {
+        if (parts.length == 4 && parts[1].equals("customers") && parts[3].equals("reviews")) {
+            try {
                 int customerId = Integer.parseInt(parts[2]);
                 CustomerController.getReviewsByCustomerId(req, res, customerId);
-            } else {
-                res.setBody("{\"error\":\"Format path tidak valid.\"}");
+            } catch (NumberFormatException e) {
+                res.setBody("{\"error\":\"Format ID tidak valid.\"}");
                 res.send(400);
             }
         } else {
@@ -48,16 +47,14 @@ public class CustomerReviewRoutes {
         }
     }
 
-    private static void handlePost(Request req, Response res, String path) {
-        // POST /customers/{customerId}/bookings/{bookingId}/reviews → Customer memberi review
-        if (path.matches("^/customers/\\d+/bookings/\\d+/reviews$")) {
-            String[] parts = path.split("/");
-            if (parts.length >= 6) {
+    private static void handlePost(Request req, Response res, String[] parts) {
+        if (parts.length == 6 && parts[1].equals("customers") && parts[3].equals("bookings") && parts[5].equals("reviews")) {
+            try {
                 int customerId = Integer.parseInt(parts[2]);
                 int bookingId = Integer.parseInt(parts[4]);
                 ReviewController.createReviewForBooking(req, res, customerId, bookingId);
-            } else {
-                res.setBody("{\"error\":\"Format path tidak valid.\"}");
+            } catch (NumberFormatException e) {
+                res.setBody("{\"error\":\"Format ID tidak valid.\"}");
                 res.send(400);
             }
         } else {

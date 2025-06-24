@@ -1,45 +1,59 @@
-# **✨ API Pemesanan Vila**  
-<mark>Tugas 2 PBO- Sistem Manajemen Vila</mark> 
+# **API JAVA OOP | SISTEM PEMESANAN VILA**  
 
-## **📌 Deskripsi Proyek** 
-Program ini adalah sebuah API (Application Programming  Interface) yang dirancang untuk mengelola pemesanan vila. API ini menyediakan berbagai endpoint untuk melakukan operasi CRUD (Create, Read, Update, dan Delete) pada entitas-entitas seperti vila 🏠, pelanggan 👥, pemesanan 📅, dan lainnya. API dibangun dengan menggunakan bahasa pemrograman Java dan database SQLite untuk menyimpan data. Setiap request yang dikirim ke API harus disertai dengan API key yang valid untuk otentikasi, yang di hardcode dalam kelas Main sebagai lapisan keamanan dasar.
+Nama: Ni Made Adelia Wirasanti  
+NIM: 2405551010  
+Kelas: PBO B  
 
-## **🔧 Fitur Utama**  
-API ini mendukung beberapa jenis HTTP request method, yaitu :
-* GET: Untuk mengambil daftar atau detail data entitas.
-* POST: Untuk membuat entitas baru, dengan validasi kelengkapan dan format data (seperti email dan nomor telepon).
-* PUT: Untuk memperbarui data entitas yang sudah ada.
-* DELETE: Untuk menghapus data entitas.
+Nama: Ni Putu Candradevi Davantari  
+NIM: 2405551035  
+Kelas: PBO B  
 
-## ⚠️ Error Handling
+Nama: Kharisma Rosary Fitri Sanda  
+NIM: 2405551072  
+Kelas: PBO B  
 
-API ini menggunakan sistem error handling terstruktur yang mengembalikan respons JSON standar ketika terjadi kesalahan. Setiap error response akan menyertakan:  
-- Kode status HTTP yang jelas  
-- Pesan error deskriptif  
-- Timestamp untuk keperluan debugging  
+Nama: Ni Luh Putu Indah Suari  
+NIM: 2405551103  
+Kelas: PBO B  
 
-Berikut adalah daftar error yang umum terjadi:
 
-| Kode Error | Penyebab                  | Solusi                     |
-|------------|---------------------------|----------------------------|
-| 400        | Data tidak valid          | Periksa kelengkapan dan format data yang dikirim |
-| 401        | API Key tidak valid       | Pastikan header `X-API-KEY` berisi kunci yang benar |
-| 404        | Data tidak ditemukan      | Verifikasi ID yang diminta tersedia di database |
+## **INTRODUCING** 
+Tugas ini merupakan proyek pembuatan backend API sederhana yang digunakan sebagai pemenuhan tugas akhir dari mata kuliah Pemrograman Berorientasi Obyek dan dikembangkan menggunakan bahasa pemrograman Java dengan pendekatan Pemrograman Berorientasi Objek (OOP). Proyek ini dirancang untuk membangun sistem pemesanan vila yang mencakup berbagai kebutuhan seperti manajemen data vila, tipe kamar, pemesanan, ulasan pelanggan, serta penggunaan voucher diskon. API ini menerapkan konsep RESTful, yang berarti seluruh komunikasi antar client dan server dilakukan dengan menggunakan HTTP method seperti GET, POST, PUT, dan DELETE. Semua data yang dikirim dan diterima dari server menggunakan format JSON, dan data disimpan secara lokal dalam basis data SQLite. Untuk melakukan pengujian terhadap seluruh endpoint API, aplikasi Postman digunakan sebagai alat bantu. Sistem ini juga dilengkapi dengan autentikasi melalui API key yang disisipkan secara hardcoded dalam program untuk membatasi akses
 
-**Contoh Response Error**:
-```json
-{
-    "status": "error",
-    "code": 404,
-    "message": "Data vila dengan ID 123 tidak ditemukan",
-    "timestamp": "2023-11-22T10:15:30Z"
-}
-```
 
-### ✅ Pengujian dan Integrasi API
+## **STRUCTURE**  
+Struktur program pada proyek ini dibuat secara modular dengan prinsip Object-Oriented Programming (OOP) agar kode rapi, mudah dipelihara, dan dikembangkan. Seluruh kode sumber disimpan dalam folder src dan dibagi ke dalam beberapa package sesuai fungsinya, yang juga mencerminkan alur kerja program: permintaan dari pengguna diproses oleh controller, diteruskan ke query untuk mengakses data, hasilnya dikemas dalam model, lalu dikembalikan sebagai response.
+* **Package models:**  Berisi class-class yang merepresentasikan entitas utama seperti Booking, Customer, Review, Room, Villa, dan Voucher. Setiap class model ini mencerminkan struktur tabel yang ada di database SQLite.
+* **Package controllers:** Mengatur logika bisnis utama, seperti mengambil data dari database, memvalidasi input dari pengguna, serta memproses atau memanipulasi data berdasarkan kebutuhan aplikasi.
+* **Package routes:** Menyediakan berbagai endpoint HTTP (seperti GET, POST, PUT, DELETE) yang bisa diakses pengguna. Package ini juga bertugas mengarahkan request ke controller yang sesuai.
+* **Package queries:** Menyimpan query-query SQL yang digunakan untuk berinteraksi dengan database. Pemisahan ini bertujuan agar logika bisnis dan logika SQL tidak tercampur, sehingga lebih mudah dibaca dan dikelola.
+* **Package database:** Mengatur koneksi ke database SQLite, termasuk proses inisialisasi dan pengelolaan siklus hidup database selama aplikasi berjalan.
+* **Package exceptions:** Berisi class-class untuk menangani berbagai jenis error atau kondisi khusus, seperti data yang tidak ditemukan, input yang tidak valid, atau permintaan tanpa izin akses.
+* **Package utils:** Menyediakan berbagai fungsi bantu, seperti validasi format data, parsing JSON, hingga pengecekan email atau tanggal, yang digunakan di berbagai bagian program.
+* **Package core:** Di sinilah server HTTP dijalankan. API key untuk autentikasi disetting secara hardcoded, dan server mulai menerima serta memproses permintaan dari pengguna.
 
-API dapat diuji menggunakan Postman dengan mengirim request ke endpoint yang tersedia. Database SQLite yang digunakan mendukung integrasi dengan:
 
-- Aplikasi website (React, Angular, dll)
-- Aplikasi mobile (Android/iOS) 
-- Sistem POS lainnya
+## **ERROR HANDLING**
+Program aplikasi dalam proyek ini dilengkapi dengan sistem penanganan error yang menggunakan konsep Exception dalam Java. Jika terjadi kesalahan selama pemrosesan request, server akan memberikan response berupa status HTTP dan pesan error dalam format JSON. Beberapa contoh penanganan error yang diterapkan antara lain: 
+* Jika pengguna mengakses data dengan ID yang tidak tersedia, maka sistem akan mengembalikan HTTP 404 Not Found.
+* Jika pengguna mengirim data yang tidak lengkap saat membuat entitas baru (seperti customer tanpa email atau booking tanpa tanggal), maka sistem akan mengembalikan HTTP 400 Bad Request dengan penjelasan error.
+* Jika format data tidak sesuai, misalnya email tidak valid atau kapasitas kamar bukan angka, maka juga akan dikembalikan HTTP 400 Bad Request.
+* Jika pengguna tidak menyertakan API key, atau API key tidak sesuai, maka sistem akan mengembalikan HTTP 401.
+
+
+## **TEST IN POSTMAN**
+Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di localhost:8080. Meskipun dapat diakses lewat browser, pengujian dilakukan menggunakan Postman agar semua metode request seperti GET, POST, PUT, dan DELETE bisa dicoba dengan mudah.
+
+**GET**
+
+**POST**
+
+**PUT**
+
+**DELETE**
+
+**ERROR 400**
+
+**ERROR 401**
+
+**ERROR 404**
