@@ -7,13 +7,7 @@
     <list default="true" id="9738b099-9f8c-4fef-90a3-c67d4294bb78" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/BaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/BookingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/ReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/ReviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/RoomController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/VillaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/VillaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/VoucherController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/VoucherController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/queries/BookingQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/BookingQuery.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -8,6 +8,8 @@ import queries.VillaQuery;
 import utils.AuthUtil;
 import utils.EntityValidator;
 import utils.VillaValidator;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class VillaController extends BaseController {
 
@@ -43,7 +45,28 @@ public class VillaController extends BaseController {
                 return;
             }
 
-            sendJsonWithMessage(res, "Available villas retrieved successfully.", VillaQuery.getAvailableVillas(ci, co), 200);
+            LocalDate checkInDate;
+            LocalDate checkOutDate;
+
+            try {
+                checkInDate = LocalDate.parse(ci);
+                checkOutDate = LocalDate.parse(co);
+            } catch (DateTimeParseException e) {
+                sendError(res, "Invalid date format. Use yyyy-MM-dd.", 400);
+                return;
+            }
+
+            if (!checkOutDate.isAfter(checkInDate)) {
+                sendError(res, "Check-out date must be after check-in date.", 400);
+                return;
+            }
+
+            sendJsonWithMessage(
+                    res,
+                    "Available villas retrieved successfully.",
+                    VillaQuery.getAvailableVillas(ci, co),
+                    200
+            );
         } catch (Exception e) {
             handleException(res, e);
         }

@@ -5,6 +5,7 @@ import core.Response;
 import exceptions.BadRequestException;
 import exceptions.NotFoundException;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BaseController {
@@ -21,10 +22,10 @@ public class BaseController {
 
     protected static void sendJsonWithMessage(Response res, String msg, Object data, int status) {
         try {
-            String body = mapper.writeValueAsString(Map.of(
-                    "message", msg,
-                    "data", data
-            ));
+            Map<String, Object> response = new LinkedHashMap<>();
+            response.put("message", msg);
+            response.put("data", data);
+            String body = mapper.writeValueAsString(response);
             res.setBody(body);
             res.send(status);
         } catch (Exception e) {
