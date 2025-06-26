@@ -2,7 +2,6 @@ package controllers;
 
 import core.Request;
 import core.Response;
-import exceptions.BadRequestException;
 import exceptions.NotFoundException;
 import models.Booking;
 import models.Customer;
@@ -24,7 +23,7 @@ public class CustomerController extends BaseController {
 
         try {
             List<Customer> customers = CustomerQuery.getAllCustomers();
-            sendJson(res, customers, 200);
+            sendJsonWithMessage(res, "Customers retrieved successfully.", customers, 200);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -35,8 +34,8 @@ public class CustomerController extends BaseController {
 
         try {
             Customer customer = CustomerQuery.getCustomerById(id);
-            if (customer == null) throw new NotFoundException("Customer was not found.");
-            sendJson(res, customer, 200);
+            if (customer == null) throw new NotFoundException("Customer not found.");
+            sendJsonWithMessage(res, "Customer retrieved successfully.", customer, 200);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -47,10 +46,10 @@ public class CustomerController extends BaseController {
 
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
-            if (customer == null) throw new NotFoundException("Customer was not found.");
+            if (customer == null) throw new NotFoundException("Customer not found.");
 
             List<Booking> bookings = BookingQuery.getBookingsByCustomerId(customerId);
-            sendJson(res, bookings, 200);
+            sendJsonWithMessage(res, "Bookings retrieved successfully.", bookings, 200);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -61,10 +60,10 @@ public class CustomerController extends BaseController {
 
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
-            if (customer == null) throw new NotFoundException("Customer was not found.");
+            if (customer == null) throw new NotFoundException("Customer not found.");
 
             List<Review> reviews = ReviewQuery.getReviewsByCustomerId(customerId);
-            sendJson(res, reviews, 200);
+            sendJsonWithMessage(res, "Reviews retrieved successfully.", reviews, 200);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -79,7 +78,7 @@ public class CustomerController extends BaseController {
             Customer customer = mapper.readValue(req.getBody(), Customer.class);
             CustomerValidator.validate(customer);
             Customer created = CustomerQuery.insertCustomer(customer);
-            sendJson(res, created, 201);
+            sendJsonWithMessage(res, "Customer successfully created.", created, 201);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -90,7 +89,7 @@ public class CustomerController extends BaseController {
 
         try {
             Customer customer = CustomerQuery.getCustomerById(customerId);
-            if (customer == null) throw new NotFoundException("Customer was not found.");
+            if (customer == null) throw new NotFoundException("Customer not found.");
 
             Booking booking = mapper.readValue(req.getBody(), Booking.class);
             booking.setCustomer(customerId);
@@ -102,7 +101,7 @@ public class CustomerController extends BaseController {
                 booking.setFinalPrice(booking.getPrice());
 
             Booking created = BookingQuery.insertBooking(booking);
-            sendJson(res, created, 201);
+            sendJsonWithMessage(res, "Booking successfully created.", created, 201);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -115,13 +114,13 @@ public class CustomerController extends BaseController {
 
         try {
             Customer existing = CustomerQuery.getCustomerById(id);
-            if (existing == null) throw new NotFoundException("Customer was not found.");
+            if (existing == null) throw new NotFoundException("Customer not found.");
 
             Customer customer = mapper.readValue(req.getBody(), Customer.class);
             CustomerValidator.validate(customer);
 
             if (CustomerQuery.updateCustomer(id, customer)) {
-                sendMessage(res, "Customer was successfully updated.", 200);
+                sendJsonWithMessage(res, "Customer was successfully updated.", customer, 200);
             } else {
                 throw new RuntimeException("Failed to update customer.");
             }
@@ -137,10 +136,10 @@ public class CustomerController extends BaseController {
 
         try {
             Customer existing = CustomerQuery.getCustomerById(id);
-            if (existing == null) throw new NotFoundException("Customer was not found.");
+            if (existing == null) throw new NotFoundException("Customer not found.");
 
             if (CustomerQuery.deleteCustomer(id)) {
-                sendMessage(res, "Customer was successfully deleted.", 200);
+                sendJsonWithMessage(res, "Customer was successfully deleted.", null, 200);
             } else {
                 throw new RuntimeException("Failed to delete customer.");
             }

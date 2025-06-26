@@ -12,13 +12,14 @@ import java.util.List;
 public class BookingController extends BaseController {
 
     // === GET Methods ===
+
     public static void getBookingsByVillaId(Request req, Response res, int villaId) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
 
         try {
             EntityValidator.checkVillaExists(villaId);
             List<Booking> bookings = BookingQuery.getBookingsByVillaId(villaId);
-            sendJson(res, bookings, 200);
+            sendJsonWithMessage(res, "Bookings retrieved successfully.", bookings, 200);
         } catch (Exception e) {
             handleException(res, e);
         }

@@ -13,14 +13,14 @@ import java.util.List;
 
 public class VoucherController extends BaseController {
 
-    // === GET ===
+    // === GET Methods ===
 
     public static void getAllVouchers(Request req, Response res) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
 
         try {
             List<Voucher> vouchers = VoucherQuery.getAll();
-            sendJson(res, vouchers, 200);
+            sendJsonWithMessage(res, "All vouchers retrieved successfully.", vouchers, 200);
         } catch (Exception e) {
             handleException(res, e);
         }
@@ -32,13 +32,13 @@ public class VoucherController extends BaseController {
         try {
             Voucher voucher = VoucherQuery.findById(id);
             if (voucher == null) throw new NotFoundException("The voucher was not found.");
-            sendJson(res, voucher, 200);
+            sendJsonWithMessage(res, "Voucher retrieved successfully.", voucher, 200);
         } catch (Exception e) {
             handleException(res, e);
         }
     }
 
-    // === POST ===
+    // === POST Methods ===
 
     public static void createVoucher(Request req, Response res) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
@@ -52,13 +52,13 @@ public class VoucherController extends BaseController {
             }
 
             VoucherQuery.insert(voucher);
-            sendMessage(res, "Voucher created successfully.", 201);
+            sendJsonWithMessage(res, "Voucher created successfully.", voucher, 201);
         } catch (Exception e) {
             handleException(res, e);
         }
     }
 
-    // === PUT ===
+    // === PUT Methods ===
 
     public static void updateVoucher(Request req, Response res, int id) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
@@ -72,13 +72,13 @@ public class VoucherController extends BaseController {
             VoucherValidator.validate(voucher);
 
             VoucherQuery.update(id, voucher);
-            sendMessage(res, "Voucher successfully updated.", 200);
+            sendJsonWithMessage(res, "Voucher successfully updated.", voucher, 200);
         } catch (Exception e) {
             handleException(res, e);
         }
     }
 
-    // === DELETE ===
+    // === DELETE Methods ===
 
     public static void deleteVoucher(Request req, Response res, int id) {
         if (!AuthUtil.authorizeOrAbort(req, res)) return;
@@ -88,7 +88,7 @@ public class VoucherController extends BaseController {
             if (voucher == null) throw new NotFoundException("The voucher was not found.");
 
             VoucherQuery.delete(id);
-            sendMessage(res, "The voucher was successfully deleted.", 200);
+            sendJsonWithMessage(res, "Voucher successfully deleted.", null, 200);
         } catch (Exception e) {
             handleException(res, e);
         }

@@ -5,12 +5,27 @@ import core.Response;
 import exceptions.BadRequestException;
 import exceptions.NotFoundException;
 
+import java.util.Map;
+
 public class BaseController {
     protected static final ObjectMapper mapper = new ObjectMapper();
 
     protected static void sendJson(Response res, Object data, int status) {
         try {
             res.setBody(mapper.writeValueAsString(data));
+            res.send(status);
+        } catch (Exception e) {
+            sendError(res, "Failed to process data.", 500);
+        }
+    }
+
+    protected static void sendJsonWithMessage(Response res, String msg, Object data, int status) {
+        try {
+            String body = mapper.writeValueAsString(Map.of(
+                    "message", msg,
+                    "data", data
+            ));
+            res.setBody(body);
             res.send(status);
         } catch (Exception e) {
             sendError(res, "Failed to process data.", 500);

@@ -37,6 +37,25 @@ public class BookingQuery {
         return null;
     }
 
+    public static List<Booking> getAllBookings() {
+        String sql = "SELECT * FROM bookings";
+        List<Booking> list = new ArrayList<>();
+
+        try (Connection conn = DB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(mapBooking(rs));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Gagal mengambil semua data booking: " + e.getMessage());
+        }
+
+        return list;
+    }
+
     public static Booking insertBooking(Booking b) {
         String sql = "INSERT INTO bookings (" +
                 "customer, room_type, checkin_date, checkout_date, " +
