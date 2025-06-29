@@ -44,15 +44,128 @@ Program aplikasi dalam proyek ini dilengkapi dengan sistem penanganan error yang
 ## **TEST IN POSTMAN**
 Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di localhost:8080. Meskipun dapat diakses lewat browser, pengujian dilakukan menggunakan Postman agar semua metode request seperti GET, POST, PUT, dan DELETE bisa dicoba dengan mudah.
 
-**GET**
-![/villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/villas.png)
+# 📚 Villa Booking API Documentation
 
+## Endpoints: Villas
 
-**POST**
+### GET
+- **`GET /villas`**  
+  Daftar semua vila  
+  ![/villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/villas.png)
 
-**PUT**
+- **`GET /villas/{id}`**  
+  Informasi detail suatu vila  
+  ![GET Villa by ID](images/get-villa-id.png)
 
-**DELETE**
+- **`GET /villas/{id}/rooms`**  
+  Informasi kamar suatu vila, lengkap dengan fasilitas dan harga  
+  ![GET Villa Rooms](images/get-villa-rooms.png)
+
+- **`GET /villas/{id}/bookings`**  
+  Daftar semua booking pada suatu vila  
+  ![GET Villa Bookings](images/get-villa-bookings.png)
+
+- **`GET /villas/{id}/reviews`**  
+  Daftar semua review pada suatu vila  
+  ![GET Villa Reviews](images/get-villa-reviews.png)
+
+- **`GET /villas?ci_date={checkin_date}&co_date={checkout_date}`**  
+  Pencarian ketersediaan vila berdasarkan tanggal check-in dan checkout  
+  ![GET Availability](images/get-availability.png)
+
+### POST
+- **`POST /villas`**  
+  Menambahkan data vila  
+  ![POST Villa](images/post-villa.png)
+
+- **`POST /villas/{id}/rooms`**  
+  Menambahkan tipe kamar pada vila  
+  ![POST Room](images/post-room.png)
+
+### PUT
+- **`PUT /villas/{id}`**  
+  Mengubah data suatu vila  
+  ![PUT Villa](images/put-villa.png)
+
+- **`PUT /villas/{id}/rooms/{id}`**  
+  Mengubah informasi kamar suatu vila  
+  ![PUT Room](images/put-room.png)
+
+### DELETE
+- **`DELETE /villas/{id}/rooms/{id}`**  
+  Menghapus kamar suatu vila  
+  ![DELETE Room](images/delete-room.png)
+
+- **`DELETE /villas/{id}`**  
+  Menghapus data suatu vila  
+  ![DELETE Villa](images/delete-villa.png)
+
+---
+
+## Endpoints: Customers
+
+### GET
+- **`GET /customers`**  
+  Daftar semua customer  
+  ![GET Customers](images/get-customers.png)
+
+- **`GET /customers/{id}`**  
+  Informasi detail seorang customer  
+  ![GET Customer ID](images/get-customer-id.png)
+
+- **`GET /customers/{id}/bookings`**  
+  Daftar booking yang telah dilakukan  
+  ![GET Customer Bookings](images/get-customer-bookings.png)
+
+- **`GET /customers/{id}/reviews`**  
+  Daftar ulasan dari customer  
+  ![GET Customer Reviews](images/get-customer-reviews.png)
+
+### POST
+- **`POST /customers`**  
+  Menambahkan customer baru  
+  ![POST Customer](images/post-customer.png)
+
+- **`POST /customers/{id}/bookings`**  
+  Customer melakukan pemesanan  
+  ![POST Booking](images/post-booking.png)
+
+- **`POST /customers/{id}/bookings/{id}/reviews`**  
+  Customer memberikan ulasan  
+  ![POST Review](images/post-review.png)
+
+### PUT
+- **`PUT /customers/{id}`**  
+  Mengubah data customer  
+  ![PUT Customer](images/put-customer.png)
+
+---
+
+## Endpoints: Vouchers
+
+### GET
+- **`GET /vouchers`**  
+  Daftar semua voucher  
+  ![GET Vouchers](images/get-vouchers.png)
+
+- **`GET /vouchers/{id}`**  
+  Detail informasi voucher  
+  ![GET Voucher ID](images/get-voucher-id.png)
+
+### POST
+- **`POST /vouchers`**  
+  Menambahkan voucher baru  
+  ![POST Voucher](images/post-voucher.png)
+
+### PUT
+- **`PUT /vouchers/{id}`**  
+  Mengubah data voucher  
+  ![PUT Voucher](images/put-voucher.png)
+
+### DELETE
+- **`DELETE /vouchers/{id}`**  
+  Menghapus voucher  
+  ![DELETE Voucher](images/delete-voucher.png)
 
 **ERROR 400**
 
