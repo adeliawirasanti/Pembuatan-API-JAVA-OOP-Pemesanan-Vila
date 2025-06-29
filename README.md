@@ -45,6 +45,8 @@ Program aplikasi dalam proyek ini dilengkapi dengan sistem penanganan error yang
 Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di localhost:8080. Meskipun dapat diakses lewat browser, pengujian dilakukan menggunakan Postman agar semua metode request seperti GET, POST, PUT, dan DELETE bisa dicoba dengan mudah.
 
 **GET**
+![/villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/villas.png)
+
 
 **POST**
 
