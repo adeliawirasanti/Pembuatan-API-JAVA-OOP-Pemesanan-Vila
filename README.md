@@ -44,30 +44,31 @@ Program aplikasi dalam proyek ini dilengkapi dengan sistem penanganan error yang
 ## **TEST IN POSTMAN**
 Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di localhost:8080. Meskipun dapat diakses lewat browser, pengujian dilakukan menggunakan Postman agar semua metode request seperti GET, POST, PUT, dan DELETE bisa dicoba dengan mudah.
 
-# 📚 Villa Booking API Documentation
+# Villa Booking API Documentation
 
 ## Endpoints: Villas
 
 ### GET
 - **`GET /villas`**  
   Daftar semua vila  
-  ![/villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/villas.png)
+  ![GET /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/villas.png)
 
 - **`GET /villas/{id}`**  
   Informasi detail suatu vila  
-  ![GET Villa by ID](images/get-villa-id.png)
+ ![GET /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-villas-id.png)
 
 - **`GET /villas/{id}/rooms`**  
   Informasi kamar suatu vila, lengkap dengan fasilitas dan harga  
-  ![GET Villa Rooms](images/get-villa-rooms.png)
+  ![GET /villas/id/rooms](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-villas-id-rooms.png)
 
 - **`GET /villas/{id}/bookings`**  
   Daftar semua booking pada suatu vila  
-  ![GET Villa Bookings](images/get-villa-bookings.png)
+  ![GET /villas/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-villas-id-bookings.png)
 
 - **`GET /villas/{id}/reviews`**  
   Daftar semua review pada suatu vila  
-  ![GET Villa Reviews](images/get-villa-reviews.png)
+![GET /villas/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-villas-id-reviews.png)
+
 
 - **`GET /villas?ci_date={checkin_date}&co_date={checkout_date}`**  
   Pencarian ketersediaan vila berdasarkan tanggal check-in dan checkout  
@@ -76,16 +77,16 @@ Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di loca
 ### POST
 - **`POST /villas`**  
   Menambahkan data vila  
-  ![POST Villa](images/post-villa.png)
+ ![POST /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-villas.png)
 
 - **`POST /villas/{id}/rooms`**  
   Menambahkan tipe kamar pada vila  
-  ![POST Room](images/post-room.png)
+ ![POST /villaS/id/rooms](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-villas-id-rooms.png)
 
 ### PUT
 - **`PUT /villas/{id}`**  
   Mengubah data suatu vila  
-  ![PUT Villa](images/put-villa.png)
+  ![PUT /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/put-villas-id.png)
 
 - **`PUT /villas/{id}/rooms/{id}`**  
   Mengubah informasi kamar suatu vila  
@@ -94,11 +95,11 @@ Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di loca
 ### DELETE
 - **`DELETE /villas/{id}/rooms/{id}`**  
   Menghapus kamar suatu vila  
-  ![DELETE Room](images/delete-room.png)
+  ![DELETE /villas/id/rooms/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/delete-villas-id-rooms-id.png)
 
 - **`DELETE /villas/{id}`**  
   Menghapus data suatu vila  
-  ![DELETE Villa](images/delete-villa.png)
+  ![DELETE /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/delete-villas-id.png)
 
 ---
 
