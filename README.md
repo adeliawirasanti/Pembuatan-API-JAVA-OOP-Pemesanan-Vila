@@ -108,37 +108,38 @@ Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di loca
 ### GET
 - **`GET /customers`**  
   Daftar semua customer  
-  ![GET Customers](images/get-customers.png)
+  ![Get /customers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-customers.png)
 
 - **`GET /customers/{id}`**  
   Informasi detail seorang customer  
-  ![GET Customer ID](images/get-customer-id.png)
+  ![Get /customers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-customers-id.png)
 
 - **`GET /customers/{id}/bookings`**  
   Daftar booking yang telah dilakukan  
-  ![GET Customer Bookings](images/get-customer-bookings.png)
+  ![Get /customers/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-customers-id-bookings.png)
 
 - **`GET /customers/{id}/reviews`**  
   Daftar ulasan dari customer  
-  ![GET Customer Reviews](images/get-customer-reviews.png)
+  ![Get /customers/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-customers-id-reviews.png)
 
 ### POST
 - **`POST /customers`**  
   Menambahkan customer baru  
-  ![POST Customer](images/post-customer.png)
+  ![Post /customers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-customers.png)
+)
 
 - **`POST /customers/{id}/bookings`**  
   Customer melakukan pemesanan  
-  ![POST Booking](images/post-booking.png)
+  ![Post /customers/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-customers-id-bookings.png)
 
 - **`POST /customers/{id}/bookings/{id}/reviews`**  
   Customer memberikan ulasan  
-  ![POST Review](images/post-review.png)
+  ![Post /customers/id/bookings/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-customers-id-bookings-id-reviews.png)
 
 ### PUT
 - **`PUT /customers/{id}`**  
   Mengubah data customer  
-  ![PUT Customer](images/put-customer.png)
+  ![Put /customers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/put-customers-id.png)
 
 ---
 
@@ -147,26 +148,26 @@ Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di loca
 ### GET
 - **`GET /vouchers`**  
   Daftar semua voucher  
-  ![GET Vouchers](images/get-vouchers.png)
+  ![Get /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-vouchers.png)
 
 - **`GET /vouchers/{id}`**  
   Detail informasi voucher  
-  ![GET Voucher ID](images/get-voucher-id.png)
+  ![Get /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-vouchers-id.png)
 
 ### POST
 - **`POST /vouchers`**  
   Menambahkan voucher baru  
-  ![POST Voucher](images/post-voucher.png)
+  ![Post /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-vouchers.png)
 
 ### PUT
 - **`PUT /vouchers/{id}`**  
   Mengubah data voucher  
-  ![PUT Voucher](images/put-voucher.png)
+  ![Put /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/put-vouchers-id.png)
 
 ### DELETE
 - **`DELETE /vouchers/{id}`**  
   Menghapus voucher  
-  ![DELETE Voucher](images/delete-voucher.png)
+  ![Delete /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/delete-vouchers-id.png)
 
 **ERROR 400**
 
