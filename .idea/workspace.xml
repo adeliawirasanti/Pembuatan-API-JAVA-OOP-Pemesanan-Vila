@@ -5,14 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9738b099-9f8c-4fef-90a3-c67d4294bb78" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/utils/BookingValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/BaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/VillaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/VillaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vbook.db" beforeDir="false" afterPath="$PROJECT_DIR$/vbook.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -29,6 +37,9 @@
     &quot;accountId&quot;: &quot;53991545-8b67-43b3-9032-ba92b05179c4&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>

@@ -11,6 +11,8 @@ import queries.CustomerQuery;
 import queries.ReviewQuery;
 import utils.AuthUtil;
 import utils.CustomerValidator;
+import utils.BookingValidator;
+
 
 import java.util.List;
 
@@ -100,12 +102,21 @@ public class CustomerController extends BaseController {
             if (booking.getFinalPrice() == 0)
                 booking.setFinalPrice(booking.getPrice());
 
+            // **Tambahkan validasi disini**
+            BookingValidator.validateDates(booking.getCheckin_date(), booking.getCheckout_date());
+            BookingValidator.validateOther(booking);
+
+
             Booking created = BookingQuery.insertBooking(booking);
             sendJsonWithMessage(res, "Booking successfully created.", created, 201);
+        } catch (IllegalArgumentException e) {
+            res.setBody("{\"error\":\"" + e.getMessage() + "\"}");
+            res.send(400);
         } catch (Exception e) {
             handleException(res, e);
         }
     }
+
 
     // === PUT Methods ===
 
