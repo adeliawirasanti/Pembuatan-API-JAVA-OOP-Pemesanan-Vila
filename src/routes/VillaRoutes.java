@@ -14,6 +14,7 @@ public class VillaRoutes {
         String[] parts = path.split("/");
 
         try {
+            // Routing nested untuk /villas/{id}/rooms, bookings, reviews
             if (parts.length >= 4 && parts[1].equals("villas")) {
                 if (parts[3].equals("rooms")) {
                     VillaRoomRoutes.handle(req, res, path, method);
@@ -77,19 +78,26 @@ public class VillaRoutes {
     private static void handleGet(Request req, Response res, String path, String query) {
         try {
             if (path.equals("/villas")) {
-                if (query == null) {
+                if (query == null || query.isBlank()) {
                     VillaController.getAllVillas(req, res);
                 } else {
                     String ci = null, co = null;
-                    for (String param : query.split("&")) {
-                        if (param.startsWith("ci_date=")) ci = param.substring(8);
-                        if (param.startsWith("co_date=")) co = param.substring(8);
+                    // Parse query params lebih aman
+                    String[] params = query.split("&");
+                    for (String param : params) {
+                        String[] kv = param.split("=", 2);
+                        if (kv.length == 2) {
+                            String key = kv[0];
+                            String value = kv[1];
+                            if (key.equals("ci_date")) ci = value;
+                            if (key.equals("co_date")) co = value;
+                        }
                     }
 
                     if (ci != null && co != null) {
                         VillaController.getAvailableVillas(req, res, ci, co);
                     } else {
-                        res.setBody("{\"error\":\"Query tidak lengkap\"}");
+                        res.setBody("{\"error\":\"Query parameter ci_date dan co_date harus lengkap.\"}");
                         res.send(400);
                     }
                 }

@@ -14,6 +14,7 @@ public class VillaQuery {
     private static final String UPDATE = "UPDATE villas SET name = ?, description = ?, address = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM villas WHERE id = ?";
 
+    // Query diperbaiki untuk cek villa yang tersedia berdasarkan tanggal check-in & check-out
     private static final String AVAILABLE =
             "SELECT DISTINCT v.* FROM villas v " +
                     "JOIN room_types r ON v.id = r.villa " +
@@ -92,13 +93,19 @@ public class VillaQuery {
         return false;
     }
 
+    // Method untuk mengambil villa yang tersedia berdasarkan tanggal check-in (ci) dan check-out (co)
     public static List<Villa> getAvailableVillas(String ci, String co) {
         List<Villa> list = new ArrayList<>();
         try (Connection conn = DB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(AVAILABLE)) {
 
-            stmt.setString(1, ci);
-            stmt.setString(2, co);
+            System.out.println("Check-in: " + ci);
+            System.out.println("Check-out: " + co);
+
+            // Urutan parameter sesuai query yang sudah diperbaiki
+            stmt.setString(1, ci); // b.checkout_date <= ?
+            stmt.setString(2, co); // b.checkin_date >= ?
+
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     list.add(mapVilla(rs));
