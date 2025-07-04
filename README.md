@@ -1,57 +1,49 @@
 # **API JAVA OOP | SISTEM PEMESANAN VILA**  
 
-Nama: Ni Made Adelia Wirasanti  
-NIM: 2405551010  
-Kelas: PBO B  
+**Mata Kuliah:** Pemrograman Berorientasi Objek B  
+**Dosen Pengampu:** Wayan Oger Vihikan, S.T.I., M.I.T.  
+**Semester:** 2/Genap
 
-Nama: Ni Putu Candradevi Davantari  
-NIM: 2405551035  
-Kelas: PBO B  
+## **🌐 INTRODUCING** 
+Tugas ini merupakan proyek pembuatan backend API sederhana sebagai pemenuhan tugas akhir mata kuliah Pemrograman Berorientasi Objek, menggunakan bahasa Java dengan pendekatan OOP. API dirancang untuk sistem pemesanan vila yang mencakup manajemen data vila, tipe kamar, pemesanan, ulasan pelanggan, dan voucher diskon. Komunikasi dilakukan melalui metode HTTP (GET, POST, PUT, DELETE) dengan format data JSON dan basis data SQLite. Pengujian dilakukan menggunakan Postman, serta akses dibatasi dengan API key yang di-hardcode.
 
-Nama: Kharisma Rosary Fitri Sanda  
-NIM: 2405551072  
-Kelas: PBO B  
+## **🧑‍💻 MEMBER**
+* **Anggota 1:** NI MADE ADELIA WIRASANTI - [2405551010] 
+* **Anggota 2:** NI PUTU CANDRADEVI DAVANTARI - [2405551035]
+* **Anggota 3:** KHARISMA ROSARY FITRI SANDA - [2405551072]
+* **Anggota 4:** NI LUH PUTU INDAH SUARI - [2405551103]
 
-Nama: Ni Luh Putu Indah Suari  
-NIM: 2405551103  
-Kelas: PBO B  
+## **🛠️ STRUCTURE**  
+Struktur program proyek ini dibuat secara modular dengan prinsip OOP agar kode lebih rapi, mudah dipelihara, dan dikembangkan. Seluruh kode berada dalam folder src dan dibagi ke beberapa package sesuai fungsinya:
+* **Package models →** Berisi class entitas utama seperti Booking, Customer, Review, Room, Villa, dan Voucher yang mencerminkan tabel pada database SQLite.
+* **Package controllers →** Mengatur logika bisnis seperti validasi input, pemrosesan data, dan interaksi dengan database.
+* **Package routes →** Menyediakan endpoint HTTP (GET, POST, PUT, DELETE) dan mengarahkan request ke controller.
+* **Package queries →** Menyimpan query SQL untuk akses data, dipisahkan dari logika bisnis.
+* **Package database →** Mengelola koneksi dan inisialisasi database SQLite.
+* **Package exceptions →** Menangani error seperti data tidak ditemukan atau input tidak valid.
+* **Package utils →** Menyediakan fungsi bantu seperti validasi email, parsing JSON, dan pengecekan tanggal.
+* **Package core →** Menjalankan server HTTP, menyetel API key, dan memproses permintaan dari pengguna.
 
+## **🔐 AUTENTIKASI**
+Akses ke endpoint API dilakukan menggunakan autentikasi Bearer Token, yang berfungsi sebagai kunci akses untuk memastikan hanya pihak yang memiliki izin yang dapat mengakses dan memanipulasi data.
 
-## **INTRODUCING** 
-Tugas ini merupakan proyek pembuatan backend API sederhana yang digunakan sebagai pemenuhan tugas akhir dari mata kuliah Pemrograman Berorientasi Obyek dan dikembangkan menggunakan bahasa pemrograman Java dengan pendekatan Pemrograman Berorientasi Objek (OOP). Proyek ini dirancang untuk membangun sistem pemesanan vila yang mencakup berbagai kebutuhan seperti manajemen data vila, tipe kamar, pemesanan, ulasan pelanggan, serta penggunaan voucher diskon. API ini menerapkan konsep RESTful, yang berarti seluruh komunikasi antar client dan server dilakukan dengan menggunakan HTTP method seperti GET, POST, PUT, dan DELETE. Semua data yang dikirim dan diterima dari server menggunakan format JSON, dan data disimpan secara lokal dalam basis data SQLite. Untuk melakukan pengujian terhadap seluruh endpoint API, aplikasi Postman digunakan sebagai alat bantu. Sistem ini juga dilengkapi dengan autentikasi melalui API key yang disisipkan secara hardcoded dalam program untuk membatasi akses
+Gunakan header berikut pada setiap request:
 
+`Authorization: Bearer Token API1234` 
 
-## **STRUCTURE**  
-Struktur program pada proyek ini dibuat secara modular dengan prinsip Object-Oriented Programming (OOP) agar kode rapi, mudah dipelihara, dan dikembangkan. Seluruh kode sumber disimpan dalam folder src dan dibagi ke dalam beberapa package sesuai fungsinya, yang juga mencerminkan alur kerja program: permintaan dari pengguna diproses oleh controller, diteruskan ke query untuk mengakses data, hasilnya dikemas dalam model, lalu dikembalikan sebagai response.
-* **Package models:**  Berisi class-class yang merepresentasikan entitas utama seperti Booking, Customer, Review, Room, Villa, dan Voucher. Setiap class model ini mencerminkan struktur tabel yang ada di database SQLite.
-* **Package controllers:** Mengatur logika bisnis utama, seperti mengambil data dari database, memvalidasi input dari pengguna, serta memproses atau memanipulasi data berdasarkan kebutuhan aplikasi.
-* **Package routes:** Menyediakan berbagai endpoint HTTP (seperti GET, POST, PUT, DELETE) yang bisa diakses pengguna. Package ini juga bertugas mengarahkan request ke controller yang sesuai.
-* **Package queries:** Menyimpan query-query SQL yang digunakan untuk berinteraksi dengan database. Pemisahan ini bertujuan agar logika bisnis dan logika SQL tidak tercampur, sehingga lebih mudah dibaca dan dikelola.
-* **Package database:** Mengatur koneksi ke database SQLite, termasuk proses inisialisasi dan pengelolaan siklus hidup database selama aplikasi berjalan.
-* **Package exceptions:** Berisi class-class untuk menangani berbagai jenis error atau kondisi khusus, seperti data yang tidak ditemukan, input yang tidak valid, atau permintaan tanpa izin akses.
-* **Package utils:** Menyediakan berbagai fungsi bantu, seperti validasi format data, parsing JSON, hingga pengecekan email atau tanggal, yang digunakan di berbagai bagian program.
-* **Package core:** Di sinilah server HTTP dijalankan. API key untuk autentikasi disetting secara hardcoded, dan server mulai menerima serta memproses permintaan dari pengguna.
+## **⚠️ ERROR HANDLING**
+Program aplikasi ini dilengkapi sistem penanganan error menggunakan konsep Exception di Java. Jika terjadi kesalahan saat memproses request, server akan merespons dengan status HTTP dan pesan error dalam format JSON. Contohnya:
+* 400 Bad Request jika data tidak lengkap atau format tidak valid (seperti email salah atau kapasitas bukan angka).
+* 401 Unauthorized jika API key tidak disertakan atau tidak sesuai.
+* 404 Not Found jika ID data tidak ditemukan.
 
-
-## **ERROR HANDLING**
-Program aplikasi dalam proyek ini dilengkapi dengan sistem penanganan error yang menggunakan konsep Exception dalam Java. Jika terjadi kesalahan selama pemrosesan request, server akan memberikan response berupa status HTTP dan pesan error dalam format JSON. Beberapa contoh penanganan error yang diterapkan antara lain: 
-* Jika pengguna mengakses data dengan ID yang tidak tersedia, maka sistem akan mengembalikan HTTP 404 Not Found.
-* Jika pengguna mengirim data yang tidak lengkap saat membuat entitas baru (seperti customer tanpa email atau booking tanpa tanggal), maka sistem akan mengembalikan HTTP 400 Bad Request dengan penjelasan error.
-* Jika format data tidak sesuai, misalnya email tidak valid atau kapasitas kamar bukan angka, maka juga akan dikembalikan HTTP 400 Bad Request.
-* Jika pengguna tidak menyertakan API key, atau API key tidak sesuai, maka sistem akan mengembalikan HTTP 401.
-
-
-## **TEST IN POSTMAN**
-Saat program aplikasi dalam proyek ini dijalankan, server API akan aktif di localhost:8080. Meskipun dapat diakses lewat browser, pengujian dilakukan menggunakan Postman agar semua metode request seperti GET, POST, PUT, dan DELETE bisa dicoba dengan mudah.
-
-# Villa Booking API Documentation
-
-## Endpoints: Villas
+## **⚙️ TEST IN POSTMAN**
+Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan di localhost:8080. Meskipun dapat diakses melalui browser, Postman digunakan agar seluruh metode request seperti GET, POST, PUT, dan DELETE dapat diuji secara menyeluruh dan efisien.
+## Villa Endpoints
 
 ### GET
-- **`GET /villas`**  
-  Daftar semua vila  
-  ![GET /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/villas.png)
+- **`GET /villas`**   
+  ![GET![get-customers-id.png](images/get-customers-id.png) /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/villas.png)
 
 - **`GET /villas/{id}`**  
   Informasi detail suatu vila  
