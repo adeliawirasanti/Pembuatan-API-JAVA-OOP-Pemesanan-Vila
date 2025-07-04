@@ -33,7 +33,7 @@ Akses ke endpoint API dilakukan menggunakan autentikasi Bearer Token, yang berfu
 
 Gunakan header berikut pada setiap request:
 
-<pre> ```http Authorization: Bearer Token API1234 ``` </pre> 
+<pre> Authorization: Bearer Token API1234 </pre> 
 
 
 ## **⚠️ ERROR HANDLING**
