@@ -204,7 +204,7 @@ Mengambil daftar voucher terbaru, termasuk voucher yang baru saja ditambahkan.
 ### DELETE
 - **`DELETE /vouchers/{id}`**  
   Menghapus voucher  
- ![Delete /vouchers/id](https://raw.githubusercontent.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/main/images/delete-vouchers-id.png)
+ ![Delete /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B7%5DDELETE-VOUCHER.png)
 
  - **`GET /vouchers/{id}, setelah DELETE`**
    Memastikan bahwa data benar-benar sudah terhapus dari database, bukan hanya hilang dari tampilan tapi masih tersimpan.
