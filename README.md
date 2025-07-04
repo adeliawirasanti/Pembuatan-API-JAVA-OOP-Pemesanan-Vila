@@ -199,12 +199,12 @@ Mengambil daftar voucher terbaru, termasuk voucher yang baru saja ditambahkan.
 
 - **`GET /vouchers/{id}, setelah PUT`**
   Mengambil data voucher yang sudah diperbarui dari server.
-[GET /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B6%5DGET-VOUCHER-ID-SETELAH-PUT.png)
+  ![GET /vouchers/id](https://raw.githubusercontent.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/main/images/%5B6%5DGET-VOUCHER-ID-SETELAH-PUT.png)
 
 ### DELETE
 - **`DELETE /vouchers/{id}`**  
   Menghapus voucher  
-  ![Delete /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/delete-vouchers-id.png)
+ ![Delete /vouchers/id](https://raw.githubusercontent.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/main/images/delete-vouchers-id.png)
 
  - **`GET /vouchers/{id}, setelah DELETE`**
    Memastikan bahwa data benar-benar sudah terhapus dari database, bukan hanya hilang dari tampilan tapi masih tersimpan.
