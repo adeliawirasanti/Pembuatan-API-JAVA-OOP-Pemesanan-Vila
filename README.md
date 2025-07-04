@@ -101,7 +101,7 @@ Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan
 
 ---
 
-## Endpoints: Customers
+## Customers Endpoints
 
 ### GET
 - **`GET /customers`**  
@@ -141,7 +141,7 @@ Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan
 
 ---
 
-## Endpoints: Vouchers
+## Vouchers Endpoints
 
 ### GET
 - **`GET /vouchers`**  
@@ -167,8 +167,8 @@ Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan
   Menghapus voucher  
   ![Delete /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/delete-vouchers-id.png)
 
-**ERROR 400**
+## ERROR 400
 
-**ERROR 401**
+## ERROR 401
 
-**ERROR 404**
+## ERROR 404
