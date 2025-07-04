@@ -190,7 +190,7 @@ Mengedit/update data customer yang sudah ada.
 
 - **`GET /vouchers, setelah POST`**  
 Mengambil daftar voucher terbaru, termasuk voucher yang baru saja ditambahkan.
-![GET /vouchers] (https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B4%5DGET-VOUCHER-SETELAH-POST.png)
+![GET /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B4%5DGET-VOUCHER-SETELAH-POST.png)
 
 ### PUT
 - **`PUT /vouchers/{id}`**  
@@ -209,6 +209,8 @@ Mengambil daftar voucher terbaru, termasuk voucher yang baru saja ditambahkan.
  - **`GET /vouchers/{id}, setelah DELETE`**
    Memastikan bahwa data benar-benar sudah terhapus dari database, bukan hanya hilang dari tampilan tapi masih tersimpan.
    ![GET /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B8%5DGET-VOUCHER-ID-SETELAH-DELETE.png)
+
+---
 
 ## ERROR 400
 400 Bad Request
