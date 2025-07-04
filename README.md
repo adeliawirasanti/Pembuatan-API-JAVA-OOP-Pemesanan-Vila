@@ -4,14 +4,17 @@
 **Dosen Pengampu:** Wayan Oger Vihikan, S.T.I., M.I.T.  
 **Semester:** 2/Genap
 
+
 ## **🌐 INTRODUCING** 
 Tugas ini merupakan proyek pembuatan backend API sederhana sebagai pemenuhan tugas akhir mata kuliah Pemrograman Berorientasi Objek, menggunakan bahasa Java dengan pendekatan OOP. API dirancang untuk sistem pemesanan vila yang mencakup manajemen data vila, tipe kamar, pemesanan, ulasan pelanggan, dan voucher diskon. Komunikasi dilakukan melalui metode HTTP (GET, POST, PUT, DELETE) dengan format data JSON dan basis data SQLite. Pengujian dilakukan menggunakan Postman, serta akses dibatasi dengan API key yang di-hardcode.
+
 
 ## **🧑‍💻 MEMBER**
 * **Anggota 1:** NI MADE ADELIA WIRASANTI - [2405551010] 
 * **Anggota 2:** NI PUTU CANDRADEVI DAVANTARI - [2405551035]
 * **Anggota 3:** KHARISMA ROSARY FITRI SANDA - [2405551072]
 * **Anggota 4:** NI LUH PUTU INDAH SUARI - [2405551103]
+
 
 ## **🛠️ STRUCTURE**  
 Struktur program proyek ini dibuat secara modular dengan prinsip OOP agar kode lebih rapi, mudah dipelihara, dan dikembangkan. Seluruh kode berada dalam folder src dan dibagi ke beberapa package sesuai fungsinya:
@@ -24,18 +27,21 @@ Struktur program proyek ini dibuat secara modular dengan prinsip OOP agar kode l
 * **Package utils →** Menyediakan fungsi bantu seperti validasi email, parsing JSON, dan pengecekan tanggal.
 * **Package core →** Menjalankan server HTTP, menyetel API key, dan memproses permintaan dari pengguna.
 
+
 ## **🔐 AUTENTIKASI**
 Akses ke endpoint API dilakukan menggunakan autentikasi Bearer Token, yang berfungsi sebagai kunci akses untuk memastikan hanya pihak yang memiliki izin yang dapat mengakses dan memanipulasi data.
 
 Gunakan header berikut pada setiap request:
 
-`Authorization: Bearer Token API1234` 
+<pre> ```http Authorization: Bearer Token API1234 ``` </pre> 
+
 
 ## **⚠️ ERROR HANDLING**
 Program aplikasi ini dilengkapi sistem penanganan error menggunakan konsep Exception di Java. Jika terjadi kesalahan saat memproses request, server akan merespons dengan status HTTP dan pesan error dalam format JSON. Contohnya:
 * 400 Bad Request jika data tidak lengkap atau format tidak valid (seperti email salah atau kapasitas bukan angka).
 * 401 Unauthorized jika API key tidak disertakan atau tidak sesuai.
 * 404 Not Found jika ID data tidak ditemukan.
+
 
 ## **⚙️ TEST IN POSTMAN**
 Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan di localhost:8080. Meskipun dapat diakses melalui browser, Postman digunakan agar seluruh metode request seperti GET, POST, PUT, dan DELETE dapat diuji secara menyeluruh dan efisien.
