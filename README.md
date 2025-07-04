@@ -48,56 +48,76 @@ Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan
 ## Villa Endpoints
 
 ### GET
-- **`GET /villas`**   
-  ![GET![get-customers-id.png](images/get-customers-id.png) /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/villas.png)
+- **`GET /villas`**
+  Mengambil data semua villa yang tersedia
+  ![GET /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B1%5DGET-VILLA.png)
 
 - **`GET /villas/{id}`**  
   Informasi detail suatu vila  
- ![GET /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-villas-id.png)
+ ![GET /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B2%5DGET-VILLA-ID.png)
 
 - **`GET /villas/{id}/rooms`**  
   Informasi kamar suatu vila, lengkap dengan fasilitas dan harga  
-  ![GET /villas/id/rooms](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-villas-id-rooms.png)
+  ![GET /villas/id/rooms](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B3%5DGET-VILLA-ID-ROOM.png)
 
 - **`GET /villas/{id}/bookings`**  
   Daftar semua booking pada suatu vila  
-  ![GET /villas/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-villas-id-bookings.png)
+  ![GET /villas/id/bookings]https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B4%5DGET-VILLA-ID-BOOKING.png
 
 - **`GET /villas/{id}/reviews`**  
   Daftar semua review pada suatu vila  
-![GET /villas/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-villas-id-reviews.png)
-
+![GET /villas/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B5%5DGET-VILLA-ID-REVIEW.png)
 
 - **`GET /villas?ci_date={checkin_date}&co_date={checkout_date}`**  
   Pencarian ketersediaan vila berdasarkan tanggal check-in dan checkout  
-  ![GET Availability](images/get-availability.png)
+  ![GET Availability](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/GET-VILLA-CI-CO-DATE.png)
 
 ### POST
 - **`POST /villas`**  
   Menambahkan data vila  
- ![POST /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-villas.png)
+ ![POST /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B7%5DPOST-VILLA.png)
+
+- **`GET /villas, setelah POST villas`** 
+Mengambil data semua villa yang tersedia setelah melakukan post.
+![GET /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B8%5DGET-VILLA-SETELAH-POST.png)
 
 - **`POST /villas/{id}/rooms`**  
   Menambahkan tipe kamar pada vila  
- ![POST /villaS/id/rooms](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-villas-id-rooms.png)
+ ![POST /villaS/id/rooms](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B9%5DPOST-VILLA-ID-ROOM.png)
+
+- **`GET /villas, setelah POST villas/{id}/rooms`**
+  Melihat data terbaru dari villa tersebut, termasuk kamar yang baru saja ditambahkan
+  ![GET /villas/id/rooms](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B10%5DGET-VILLA-SETELAH-POST-VILLA-ID-ROOM.png)
 
 ### PUT
 - **`PUT /villas/{id}`**  
   Mengubah data suatu vila  
-  ![PUT /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/put-villas-id.png)
+  ![PUT /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B11%5DPUT-VILLA%20ID%20.png)
+
+- **`GET /villas, setelah put`**
+    mengambil data terbaru dari semua villa, termasuk villa yang barusan di-update
+  ![GET /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B12%5DGET-VILLA-SETELAH-PUT.png)
 
 - **`PUT /villas/{id}/rooms/{id}`**  
   Mengubah informasi kamar suatu vila  
-  ![PUT Room](images/put-room.png)
+  ![PUT Room](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B13%5DPUT-VILLA-ID-ROOM-ID.png)
 
 ### DELETE
 - **`DELETE /villas/{id}/rooms/{id}`**  
   Menghapus kamar suatu vila  
-  ![DELETE /villas/id/rooms/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/delete-villas-id-rooms-id.png)
+  ![DELETE /villas/id/rooms/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B16%5DDELETE-VILLA-ID-ROOM-ID.png)
+
+- **`GET /villas, setelah delete villas/{id}/rooms/{id}`**
+  Memastikan perubahan berhasil dan kamar tersebut benar-benar tidak ada lagi dalam data villa.
+  ![GET /villas/id/rooms/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B17%5DGET-VILLA-ID-ROOM-SETELAH-DELETE-VILLA-ID-ROOM-ID.png)
 
 - **`DELETE /villas/{id}`**  
   Menghapus data suatu vila  
-  ![DELETE /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/delete-villas-id.png)
+  ![DELETE /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B14%5DDELETE-VILLA-ID.png)
+
+- **`GET /villas, setelah delete villas/{id}`**
+  Menampilkan daftar villa terbaru setelah satu villa dihapus
+  ![GET /villas/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B15%5DGET-VILLA-ID-SETELAH-DELETE.png)
 
 ---
 
@@ -106,38 +126,49 @@ Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan
 ### GET
 - **`GET /customers`**  
   Daftar semua customer  
-  ![Get /customers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-customers.png)
+  ![Get /customers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B1%5DGET-CUSTOMER.png)
 
 - **`GET /customers/{id}`**  
   Informasi detail seorang customer  
-  ![Get /customers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-customers-id.png)
+  ![Get /customers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B2%5DGET-CUSTOMER-ID.png)
 
 - **`GET /customers/{id}/bookings`**  
   Daftar booking yang telah dilakukan  
-  ![Get /customers/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-customers-id-bookings.png)
+  ![Get /customers/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B3%5DGET-CUSTOMER-ID-BOOKING.png)
 
 - **`GET /customers/{id}/reviews`**  
   Daftar ulasan dari customer  
-  ![Get /customers/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-customers-id-reviews.png)
+  ![Get /customers/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B4%5DGET-CUSTOMER-ID-REVIEW.png)
 
 ### POST
 - **`POST /customers`**  
   Menambahkan customer baru  
-  ![Post /customers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-customers.png)
-)
+  ![Post /customers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B5%5DPOST-CUSTOMER.png)
+
+- **`GET /customers/{id}`**
+  Mengambil detail data satu customer berdasarkan id
+![GET /customers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B6%5DGET-CUSTOMER-ID-SETELAH-POST.png)
 
 - **`POST /customers/{id}/bookings`**  
   Customer melakukan pemesanan  
-  ![Post /customers/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-customers-id-bookings.png)
+  ![Post /customers/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B7%5DPOST-CUSTOMER-ID-BOOKING.png)
+
+- **`GET /customers/{id}/bookings, setelah POST`**
+  Mengambil semua data booking milik customer berdasarkan id, termasuk booking terbaru yang baru saja dibuat.
+  ![GET /customers/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B8%5DGET-VILLA-SETELAH-POST.png)
 
 - **`POST /customers/{id}/bookings/{id}/reviews`**  
   Customer memberikan ulasan  
-  ![Post /customers/id/bookings/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-customers-id-bookings-id-reviews.png)
+  ![Post /customers/id/bookings/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B9%5DPOST-CUSTOMER-ID-BOOKING-ID-REVIEW.png)
 
 ### PUT
-- **`PUT /customers/{id}`**  
-  Mengubah data customer  
-  ![Put /customers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/put-customers-id.png)
+-**`PUT /customers`**
+Mengedit/update data customer yang sudah ada.
+![PUT /customers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B10%5DPUT-CUSTOMER.png)
+
+- **`GET /customers/{id}, setelah PUT customers`**
+  Mengambil data terbaru dari customer yang barusan diubah
+  ![GET customers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B11%5DGET-CUSTOMER-ID-SETELAH-PUT.png)
 
 ---
 
@@ -146,29 +177,50 @@ Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan
 ### GET
 - **`GET /vouchers`**  
   Daftar semua voucher  
-  ![Get /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-vouchers.png)
+  ![Get /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B1%5DGET-VOUCHER.png)
 
 - **`GET /vouchers/{id}`**  
   Detail informasi voucher  
-  ![Get /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/get-vouchers-id.png)
+  ![Get /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B2%5DGET-VOUCHER-ID.png)
 
 ### POST
 - **`POST /vouchers`**  
   Menambahkan voucher baru  
-  ![Post /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/post-vouchers.png)
+  ![Post /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B3%5DPOST-VOUCHER.png)
+
+- **`GET /vouchers, setelah POST`**  
+Mengambil daftar voucher terbaru, termasuk voucher yang baru saja ditambahkan.
+![GET /vouchers] (https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B4%5DGET-VOUCHER-SETELAH-POST.png)
 
 ### PUT
 - **`PUT /vouchers/{id}`**  
   Mengubah data voucher  
-  ![Put /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/put-vouchers-id.png)
+  ![Put /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B5%5DPUT-VOUCHER.png)
+
+- **`GET /vouchers/{id}, setelah PUT`**
+  Mengambil data voucher yang sudah diperbarui dari server.
+[GET /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B6%5DGET-VOUCHER-ID-SETELAH-PUT.png)
 
 ### DELETE
 - **`DELETE /vouchers/{id}`**  
   Menghapus voucher  
   ![Delete /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/raw/main/images/delete-vouchers-id.png)
 
+ - **`GET /vouchers/{id}, setelah DELETE`**
+   Memastikan bahwa data benar-benar sudah terhapus dari database, bukan hanya hilang dari tampilan tapi masih tersimpan.
+   ![GET /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B8%5DGET-VOUCHER-ID-SETELAH-DELETE.png)
+
 ## ERROR 400
+400 Bad Request
+Artinya: Permintaan dari client salah atau tidak sesuai format.
+![ERROR 404](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/ERROR%20400.png)
 
 ## ERROR 401
+401 Unauthorized
+Artinya: Client belum melakukan otentikasi atau token/kredensial tidak sah.
+![ERROR 401](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/ERROR%20401.png)
 
 ## ERROR 404
+404 Not Found
+Artinya: Resource yang diminta tidak ditemukan di server.
+![ERROR 404](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/ERROR%20404.png)
