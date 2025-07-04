@@ -1,6 +1,6 @@
 package models;
 
-public class Booking {
+public class  Booking {
     private int id;
     private int customer;
     private int room_type;

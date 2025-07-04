@@ -35,7 +35,7 @@ public class RoomController extends BaseController {
 
             boolean success = RoomQuery.insertRoom(room);
             if (success) {
-                sendMessage(res, "Room successfully added.", 201);
+                sendJsonWithMessage(res, "Room successfully added.", room, 201);
             } else {
                 throw new RuntimeException("Failed to add room.");
             }
@@ -58,7 +58,7 @@ public class RoomController extends BaseController {
                 throw new NotFoundException("Room was not found.");
             }
 
-            sendMessage(res, "Room successfully updated.", 200);
+            sendJsonWithMessage(res, "Room successfully updated.", room, 200);
         } catch (Exception e) {
             handleException(res, e);
         }
