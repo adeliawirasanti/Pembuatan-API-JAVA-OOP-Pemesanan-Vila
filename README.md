@@ -31,7 +31,7 @@ Struktur program proyek ini dibuat secara modular dengan prinsip OOP agar kode l
 ## **🔐 AUTENTIKASI**
 Akses ke endpoint API dilakukan menggunakan autentikasi Bearer Token, yang berfungsi sebagai kunci akses untuk memastikan hanya pihak yang memiliki izin yang dapat mengakses dan memanipulasi data.
 
-Gunakan header berikut pada setiap request:
+Gunakan token berikut pada setiap request:
 
 <pre> Authorization: Bearer Token API1234 </pre> 
 
@@ -62,7 +62,7 @@ Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan
 
 - **`GET /villas/{id}/bookings`**  
   Daftar semua booking pada suatu vila  
-  ![GET /villas/id/bookings]https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B4%5DGET-VILLA-ID-BOOKING.png
+  ![GET /villas/id/bookings](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B4%5DGET-VILLA-ID-BOOKING.png)
 
 - **`GET /villas/{id}/reviews`**  
   Daftar semua review pada suatu vila  
@@ -75,7 +75,7 @@ Pengujian program dilakukan menggunakan Postman, dengan server API yang berjalan
 ### POST
 - **`POST /villas`**  
   Menambahkan data vila  
- ![POST /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B7%5DPOST-VILLA.png)
+ ![POST /villas](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/POST-VILLA.png)
 
 - **`GET /villas, setelah POST villas`** 
 Mengambil data semua villa yang tersedia setelah melakukan post.
@@ -162,7 +162,7 @@ Mengambil data semua villa yang tersedia setelah melakukan post.
   ![Post /customers/id/bookings/id/reviews](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B9%5DPOST-CUSTOMER-ID-BOOKING-ID-REVIEW.png)
 
 ### PUT
--**`PUT /customers`**
+- **`PUT /customers`**
 Mengedit/update data customer yang sudah ada.
 ![PUT /customers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B10%5DPUT-CUSTOMER.png)
 
