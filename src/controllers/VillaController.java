@@ -53,7 +53,7 @@ public class VillaController extends BaseController {
                 checkInDate = LocalDate.parse(ci);
                 checkOutDate = LocalDate.parse(co);
             } catch (DateTimeParseException e) {
-                sendError(res, "Invalid date format. Use yyyy-MM-dd.", 400);
+                sendError(res, "Invalid date format. Use yyyy-MM-dd", 400);
                 return;
             }
 
