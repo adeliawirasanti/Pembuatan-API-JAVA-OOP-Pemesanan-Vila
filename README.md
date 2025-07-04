@@ -193,18 +193,18 @@ Mengambil daftar voucher terbaru, termasuk voucher yang baru saja ditambahkan.
 ![GET /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B4%5DGET-VOUCHER-SETELAH-POST.png)
 
 ### PUT
-- **`PUT /vouchers/{id}`**  
+- **`PUT /vouchers`**  
   Mengubah data voucher  
-  ![Put /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B5%5DPUT-VOUCHER.png)
+  ![Put /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B5%5DPUT-VOUCHER.png)
 
 - **`GET /vouchers/{id}, setelah PUT`**
   Mengambil data voucher yang sudah diperbarui dari server.
   ![GET /vouchers/id](https://raw.githubusercontent.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/main/images/%5B6%5DGET-VOUCHER-ID-SETELAH-PUT.png)
 
 ### DELETE
-- **`DELETE /vouchers/{id}`**  
+- **`DELETE /vouchers`**  
   Menghapus voucher  
- ![Delete /vouchers/id](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B7%5DDELETE-VOUCHER.png)
+ ![Delete /vouchers](https://github.com/adeliawirasanti/Pembuatan-API-JAVA-OOP-Pemesanan-Vila/blob/main/images/%5B7%5DDELETE-VOUCHER.png)
 
  - **`GET /vouchers/{id}, setelah DELETE`**
    Memastikan bahwa data benar-benar sudah terhapus dari database, bukan hanya hilang dari tampilan tapi masih tersimpan.
